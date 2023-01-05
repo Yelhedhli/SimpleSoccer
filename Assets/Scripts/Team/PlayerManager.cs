@@ -6,23 +6,30 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public PlayerController[] teamPlayers;
-    public int activePlayer = 0;
+    public PlayerController activePlayer;
+    private int index = 0;
     // Start is called before the first frame update
     void Start()
     {
         teamPlayers = GetComponentsInChildren<PlayerController>();
-        teamPlayers[activePlayer].brainState = PlayerController.BrainState.Player;
+        activePlayer = teamPlayers[0];
+        teamPlayers[0].SetPlayerControlled();
     }
 
     // Update is called once per frame
     void Update()
     {
         if(Input.GetButtonDown("SwitchPlayer")){
-            print(activePlayer);
-            teamPlayers[activePlayer].brainState = PlayerController.BrainState.Offense;
-            activePlayer = (activePlayer+1)%3;
-            print(activePlayer);
-            teamPlayers[activePlayer].brainState = PlayerController.BrainState.Player;
+            index = (index+1)%3;
+            print(index);
+            SwitchPlayer(teamPlayers[index]);
         }
+    }
+
+    void SwitchPlayer(PlayerController target){
+        activePlayer.SetAIControlled();
+        activePlayer = target;
+        activePlayer.SetPlayerControlled();
+        
     }
 }

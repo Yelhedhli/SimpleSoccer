@@ -51,4 +51,12 @@ public class PlayerController : MonoBehaviour
         }
 
     }
+
+    public void SetPlayerControlled(){
+        brainState = BrainState.Player;
+    }
+
+    public void SetAIControlled(){
+        brainState = BrainState.Offense;
+    }
 }
