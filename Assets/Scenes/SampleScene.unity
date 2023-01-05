@@ -267,7 +267,7 @@ GameObject:
   - component: {fileID: 330585545}
   - component: {fileID: 330585544}
   - component: {fileID: 330585547}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   - component: {fileID: 410087041}
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Directional Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +909,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamPlayers: []
   activePlayer: {fileID: 0}
-  capsuleRadius: 2
+  capsuleRadius: 3
+  passSelectorLength: 30
 --- !u!4 &1098149401
 Transform:
   m_ObjectHideFlags: 0
@@ -1038,7 +1039,7 @@ GameObject:
   - component: {fileID: 1337567442}
   - component: {fileID: 1337567441}
   - component: {fileID: 1337567440}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: originmarker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1233,7 +1234,7 @@ GameObject:
   - component: {fileID: 1818811293}
   - component: {fileID: 1818811292}
   - component: {fileID: 1818811291}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -31,9 +31,6 @@ public class PlayerManager : MonoBehaviour
     {
         if(Input.GetButtonDown("SwitchPlayer")){
             PlayerController[] targetPlayers = GetTargets();
-            // foreach(PlayerController c in targetPlayers){
-            //     print(c);
-            // }
             if(targetPlayers.Length != 0){
                 print(targetPlayers[0]);
                 SwitchPlayer(targetPlayers[0]);
@@ -44,8 +41,8 @@ public class PlayerManager : MonoBehaviour
     void OnDrawGizmos(){
         if (activePlayer != null){
             Vector3 movementVector = GetMovementVector();
-            capsuleStart = activePlayer.transform.position;
-            capsuleEnd = activePlayer.transform.position + movementVector * passSelectorLength;
+            capsuleStart = CalculateCapsuleStart(movementVector);
+            capsuleEnd = CalculateCapsuleEnd(movementVector);
             GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd, capsuleRadius);
         }
     }
@@ -65,8 +62,8 @@ public class PlayerManager : MonoBehaviour
             return targetList.ToArray();
         }
 
-        capsuleStart = activePlayer.transform.position;
-        capsuleEnd = activePlayer.transform.position + movementVector * passSelectorLength; 
+        capsuleStart = CalculateCapsuleStart(movementVector);
+        capsuleEnd = CalculateCapsuleEnd(movementVector); 
         Collider[] found = Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius, 1);
 
         foreach(Collider c in found){
@@ -90,4 +87,13 @@ public class PlayerManager : MonoBehaviour
 
         return movementVector;
     }
+
+    Vector3 CalculateCapsuleStart(Vector3 movementVector){
+        return activePlayer.transform.position + movementVector * capsuleRadius;
+    }
+
+    Vector3 CalculateCapsuleEnd(Vector3 movementVector){
+        return activePlayer.transform.position + movementVector * passSelectorLength;
+    }
+
 }
