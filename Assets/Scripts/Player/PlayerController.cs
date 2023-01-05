@@ -31,24 +31,39 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if(brainState == BrainState.Player){
-            //  take user input
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
-
-            // calc movement vector
-            Vector3 movementDirection = new Vector3(h, 0, v);
-            movementDirection.Normalize();
-
+            // get movement vector
+            Vector3 movementDirection = GetMovementVector();
+            
             // move in desired direction
-            transform.Translate(movementDirection*speed*Time.deltaTime, Space.World); 
+            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World); 
 
             // rotate character to face movement direction
             if(movementDirection != Vector3.zero){
                 Quaternion toRotation  = Quaternion.LookRotation(movementDirection, Vector3.up);
 
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed*Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
             }
         }
 
+    }
+
+    public void SetPlayerControlled(){
+        brainState = BrainState.Player;
+    }
+
+    public void SetAIControlled(){
+        brainState = BrainState.Offense;
+    }
+
+    Vector3 GetMovementVector(){
+        //  take user input
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        // calc movement vector
+        Vector3 movementVector = new Vector3(h, 0, v);
+        movementVector.Normalize();
+
+        return movementVector;
     }
 }
