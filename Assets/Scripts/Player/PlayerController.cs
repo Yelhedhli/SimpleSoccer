@@ -31,14 +31,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if(brainState == BrainState.Player){
-            //  take user input
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
-
-            // calc movement vector
-            Vector3 movementDirection = new Vector3(h, 0, v);
-            movementDirection.Normalize();
-
+            // get movement vector
+            Vector3 movementDirection = GetMovementVector();
+            
             // move in desired direction
             transform.Translate(movementDirection*speed*Time.deltaTime, Space.World); 
 
@@ -58,5 +53,17 @@ public class PlayerController : MonoBehaviour
 
     public void SetAIControlled(){
         brainState = BrainState.Offense;
+    }
+
+    Vector3 GetMovementVector(){
+        //  take user input
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        // calc movement vector
+        Vector3 movementVector = new Vector3(h, 0, v);
+        movementVector.Normalize();
+
+        return movementVector;
     }
 }

@@ -15,7 +15,7 @@ public class PlayerManager : MonoBehaviour
     private Vector3 capsuleEnd;
     
     [SerializeField]
-    private int capsuleRadius = 5;
+    private int capsuleRadius;
 
     // Start is called before the first frame update
     void Start()
@@ -23,15 +23,11 @@ public class PlayerManager : MonoBehaviour
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
         teamPlayers[0].SetPlayerControlled();
-
-        capsuleStart = activePlayer.transform.position;
-        capsuleEnd = new Vector3(0,0,0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        capsuleStart = activePlayer.transform.position;
         if(Input.GetButtonDown("SwitchPlayer")){
             Collider[] targetPlayers = GetTargets();
             foreach(Collider c in targetPlayers){
@@ -44,6 +40,9 @@ public class PlayerManager : MonoBehaviour
 
     void OnDrawGizmos(){
         if (activePlayer != null){
+            Vector3 movementVector = GetMovementVector();
+            capsuleStart = activePlayer.transform.position;
+            capsuleEnd = activePlayer.transform.position + movementVector*10;
             GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd, capsuleRadius);
         }
     }
@@ -55,6 +54,27 @@ public class PlayerManager : MonoBehaviour
     }
 
     Collider[] GetTargets(){
+        Vector3 movementVector = GetMovementVector();
+
+        if(movementVector == Vector3.zero){
+            Collider[] collider = new Collider[0];
+            return collider;
+        }
+
+        capsuleStart = activePlayer.transform.position;
+        capsuleEnd = activePlayer.transform.position + movementVector*10;
         return Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius);
+    }
+
+    Vector3 GetMovementVector(){
+        //  take user input
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+
+        // calc movement vector
+        Vector3 movementVector = new Vector3(h, 0, v);
+        movementVector.Normalize();
+
+        return movementVector;
     }
 }

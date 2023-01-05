@@ -909,7 +909,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamPlayers: []
   activePlayer: {fileID: 0}
-  capsuleRadius: 5
+  capsuleRadius: 2
 --- !u!4 &1098149401
 Transform:
   m_ObjectHideFlags: 0
