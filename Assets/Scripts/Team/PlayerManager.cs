@@ -8,14 +8,15 @@ public class PlayerManager : MonoBehaviour
 {
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
-    
-    private int index = 0;
 
     private Vector3 capsuleStart;
     private Vector3 capsuleEnd;
     
     [SerializeField]
     private int capsuleRadius;
+
+    [SerializeField]
+    private int passSelectorLength;
 
     // Start is called before the first frame update
     void Start()
@@ -29,12 +30,14 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown("SwitchPlayer")){
-            Collider[] targetPlayers = GetTargets();
-            foreach(Collider c in targetPlayers){
-                print(c.transform.parent);
+            PlayerController[] targetPlayers = GetTargets();
+            // foreach(PlayerController c in targetPlayers){
+            //     print(c);
+            // }
+            if(targetPlayers.Length != 0){
+                print(targetPlayers[0]);
+                SwitchPlayer(targetPlayers[0]);
             }
-            index = (index+1)%3;
-            SwitchPlayer(teamPlayers[index]);
         }
     }
 
@@ -42,7 +45,7 @@ public class PlayerManager : MonoBehaviour
         if (activePlayer != null){
             Vector3 movementVector = GetMovementVector();
             capsuleStart = activePlayer.transform.position;
-            capsuleEnd = activePlayer.transform.position + movementVector*10;
+            capsuleEnd = activePlayer.transform.position + movementVector * passSelectorLength;
             GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd, capsuleRadius);
         }
     }
@@ -53,17 +56,27 @@ public class PlayerManager : MonoBehaviour
         activePlayer.SetPlayerControlled();
     }
 
-    Collider[] GetTargets(){
+    PlayerController[] GetTargets(){
+        List<PlayerController> targetList = new List<PlayerController>(); 
+
         Vector3 movementVector = GetMovementVector();
 
         if(movementVector == Vector3.zero){
-            Collider[] collider = new Collider[0];
-            return collider;
+            return targetList.ToArray();
         }
 
         capsuleStart = activePlayer.transform.position;
-        capsuleEnd = activePlayer.transform.position + movementVector*10;
-        return Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius);
+        capsuleEnd = activePlayer.transform.position + movementVector * passSelectorLength; 
+        Collider[] found = Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius, 1);
+
+        foreach(Collider c in found){
+            PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
+            if(target != activePlayer){
+                targetList.Add(target);
+            }
+        }
+
+        return targetList.ToArray();
     }
 
     Vector3 GetMovementVector(){

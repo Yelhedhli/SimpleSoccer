@@ -35,13 +35,13 @@ public class PlayerController : MonoBehaviour
             Vector3 movementDirection = GetMovementVector();
             
             // move in desired direction
-            transform.Translate(movementDirection*speed*Time.deltaTime, Space.World); 
+            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World); 
 
             // rotate character to face movement direction
             if(movementDirection != Vector3.zero){
                 Quaternion toRotation  = Quaternion.LookRotation(movementDirection, Vector3.up);
 
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed*Time.deltaTime);
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
             }
         }
 
