@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour
 
     public bool hasBall = false;
 
+    private Ball ball;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        ball = GameObject.Find("Ball").GetComponent<Ball>(); // leave this logic in for eventual implementation of shooting
     }
 
     // Update is called once per frame
@@ -48,15 +50,7 @@ public class PlayerController : MonoBehaviour
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
             }
-            
-            if (hasBall)
-            {
-                GameObject ballGO = GameObject.Find("Ball");
-                Ball ball = ballGO.GetComponent<Ball>();
-                ball.targetPos = dribblePos.transform.position;
-            }
         }
-
     }
 
     public void SetPlayerControlled(){
