@@ -15,10 +15,16 @@ public class Ball : MonoBehaviour
 
     private Rigidbody rb;
 
+    public Ball instance;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
 
     // Update is called once per frame
@@ -26,6 +32,6 @@ public class Ball : MonoBehaviour
     {
         //Moves the transform 
         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
-        targetPos = playerInPossession.dribblePos.transform.position;
+        //targetPos = playerInPossession.dribblePos.transform.position; //old shit used to track
     }
 }

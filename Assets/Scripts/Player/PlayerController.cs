@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
+    public bool hasBall = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,13 @@ public class PlayerController : MonoBehaviour
                 Quaternion toRotation  = Quaternion.LookRotation(movementDirection, Vector3.up);
 
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+            }
+            
+            if (hasBall)
+            {
+                GameObject ballGO = GameObject.Find("Ball");
+                Ball ball = ballGO.GetComponent<Ball>();
+                ball.targetPos = dribblePos.transform.position;
             }
         }
 
