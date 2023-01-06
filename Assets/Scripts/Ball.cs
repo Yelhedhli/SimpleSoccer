@@ -13,15 +13,28 @@ public class Ball : MonoBehaviour
     [SerializeField]
     private int ballSpeed;
 
+    // this lets us access from any other script via Ball.instance
+    public static Ball instance;
+
+    //this lets us access ball's rigidbody from other scripts
+    private Rigidbody rb;
+
     private enum BallState{Idle, Dribbling, Passing};
 
     private BallState ballState;
+    
 
     // Start is called before the first frame update
     void Start()
     {
+        if (Ball.instance == null)
+        {
+            Ball.instance = this;
+        }
+
         targetPos = Vector3.zero;
         ballState = BallState.Dribbling;
+        rb = this.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
