@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ball = GameObject.Find("Ball").GetComponent<Ball>(); // leave this logic in for eventual implementation of shooting
+        ball = Ball.instance; // leave this logic in for eventual implementation of shooting
     }
 
     // Update is called once per frame
