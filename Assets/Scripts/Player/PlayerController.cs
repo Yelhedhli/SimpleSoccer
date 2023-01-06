@@ -21,10 +21,12 @@ public class PlayerController : MonoBehaviour
 
     public bool hasBall = false;
 
+    private Ball ball;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        ball = GameObject.Find("Ball").GetComponent<Ball>();
     }
 
     // Update is called once per frame
@@ -51,8 +53,6 @@ public class PlayerController : MonoBehaviour
             
             if (hasBall)
             {
-                GameObject ballGO = GameObject.Find("Ball");
-                Ball ball = ballGO.GetComponent<Ball>();
                 ball.targetPos = dribblePos.transform.position;
             }
         }
