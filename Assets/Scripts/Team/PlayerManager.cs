@@ -21,13 +21,17 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private LayerMask playerLayerMask;
 
+    private Ball ball;
+
     // Start is called before the first frame update
     void Start()
     {
+        ball = GameObject.Find("Ball").GetComponent<Ball>();
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
         activePlayer.hasBall = true;
         activePlayer.SetPlayerControlled();
+        ball.PassTo(activePlayer);
     }
 
     // Update is called once per frame
@@ -57,6 +61,7 @@ public class PlayerManager : MonoBehaviour
         activePlayer = target;
         activePlayer.SetPlayerControlled();
         activePlayer.hasBall = true;
+        ball.PassTo(activePlayer);
     }
 
     PlayerController[] GetTargets(){
