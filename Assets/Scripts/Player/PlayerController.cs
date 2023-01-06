@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] 
     private float rotationSpeed = 720;
 
+    [SerializeField]
+    public GameObject dribblePos; //position for where ball should go if this player has possession
+
     // Start is called before the first frame update
     void Start()
     {
