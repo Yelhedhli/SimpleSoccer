@@ -18,6 +18,9 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private int passSelectorLength;
 
+    [SerializeField]
+    private LayerMask playerLayerMask;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,7 +67,7 @@ public class PlayerManager : MonoBehaviour
 
         capsuleStart = CalculateCapsuleStart(movementVector);
         capsuleEnd = CalculateCapsuleEnd(movementVector); 
-        Collider[] found = Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius, 1);
+        Collider[] found = Physics.OverlapCapsule(capsuleStart, capsuleEnd, capsuleRadius, playerLayerMask);
 
         foreach(Collider c in found){
             PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
