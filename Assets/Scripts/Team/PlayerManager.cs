@@ -26,7 +26,8 @@ public class PlayerManager : MonoBehaviour
     {
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
-        teamPlayers[0].SetPlayerControlled();
+        activePlayer.hasBall = true;
+        activePlayer.SetPlayerControlled();
     }
 
     // Update is called once per frame
@@ -52,8 +53,10 @@ public class PlayerManager : MonoBehaviour
 
     void SwitchPlayer(PlayerController target){
         activePlayer.SetAIControlled();
+        activePlayer.hasBall = false;
         activePlayer = target;
         activePlayer.SetPlayerControlled();
+        activePlayer.hasBall = true;
     }
 
     PlayerController[] GetTargets(){
