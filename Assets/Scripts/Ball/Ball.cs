@@ -65,7 +65,7 @@ public class Ball : MonoBehaviour
     public void PassTo(PlayerController target){
         playerInPoss = null;
         ballState = BallState.Passing;
-        targetPos = target.transform.position;
+        targetPos = target.dribblePos.transform.position;
         target.RecievePass();
     }
 
