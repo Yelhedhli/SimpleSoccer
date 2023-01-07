@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1765060324890459673}
   - component: {fileID: 3201748787368772841}
   - component: {fileID: 1531211056127793951}
-  - component: {fileID: 2286725321090468738}
   m_Layer: 8
   m_Name: DribblePos
   m_TagString: Untagged
@@ -84,19 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2286725321090468738
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5182626859741395664}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6574849257606631484
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +435,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: halfcylinder
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0088d1beccbacc042a114b344bcc91a5,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0088d1beccbacc042a114b344bcc91a5, type: 3}
 --- !u!4 &8541391608237303374 stripped
@@ -477,3 +468,15 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 0088d1beccbacc042a114b344bcc91a5, type: 3}
+--- !u!114 &1770713813473054127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9062032746847468788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a0e745942012543bdf39967a116a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

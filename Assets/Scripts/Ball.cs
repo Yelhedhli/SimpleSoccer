@@ -33,7 +33,7 @@ public class Ball : MonoBehaviour
         }
 
         targetPos = Vector3.zero;
-        ballState = BallState.Dribbling;
+        ballState = BallState.Idle;
         rb = this.GetComponent<Rigidbody>();
     }
 
