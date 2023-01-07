@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Collider ballStealCollider;
     private PlayerManager playerManager;
     
-    private enum BrainState{Player, Offense, Defense}
+    private enum BrainState{Player, Offense, Defense, RecievePass}
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
     [SerializeField] 
@@ -42,19 +42,35 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(brainState == BrainState.Player){
-            // get movement vector
-            Vector3 movementDirection = GetMovementVector();
-            
-            // move in desired direction
-            transform.Translate(movementDirection * speed * Time.deltaTime, Space.World); 
+        Quaternion toRotation;
 
-            // rotate character to face movement direction
-            if(movementDirection != Vector3.zero){
-                Quaternion toRotation  = Quaternion.LookRotation(movementDirection, Vector3.up);
+        switch(brainState){
+            case BrainState.Player:
+                // get movement vector
+                Vector3 movementDirection = GetMovementVector();
+                
+                // move in desired direction
+                transform.Translate(movementDirection * speed * Time.deltaTime, Space.World); 
 
+                // rotate character to face movement direction
+                if(movementDirection != Vector3.zero){
+                    toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+
+                    transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+                }
+                break;
+
+            case BrainState.RecievePass:
+                Vector3 lookVector = ball.transform.position - this.transform.position;
+                lookVector.y = 0;
+                lookVector.Normalize();
+
+                transform.Translate(lookVector * speed * Time.deltaTime, Space.World); 
+
+                toRotation = Quaternion.LookRotation(lookVector, Vector3.up);
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
-            }
+                
+                break;
         }
     }
 
@@ -96,5 +112,10 @@ public class PlayerController : MonoBehaviour
         if(!playerControlled){
             SetAIControlled();
         }
+    }
+
+    public void RecievePass(){
+        ballStealCollider.enabled = true;
+        brainState = BrainState.RecievePass;
     }
 }

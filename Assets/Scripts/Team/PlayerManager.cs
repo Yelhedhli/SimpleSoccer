@@ -39,9 +39,9 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown("SwitchPlayer")){
-            if(teamInPoss){
+            if(teamInPoss && ball.playerInPoss != null){
                 Pass();
-            }else{
+            }else if(!teamInPoss){
                 SwitchDefender();
             }
         }
