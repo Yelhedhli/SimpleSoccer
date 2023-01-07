@@ -67,4 +67,13 @@ public class Ball : MonoBehaviour
     public void PassTo(PlayerController target){
         playerInPoss = target;
     }
+
+    public bool Steal(PlayerController stealer){
+        if(playerInPoss == null){
+            playerInPoss = stealer;
+            ballState = BallState.Dribbling;
+            return true;
+        }
+        return false;
+    }
 }
