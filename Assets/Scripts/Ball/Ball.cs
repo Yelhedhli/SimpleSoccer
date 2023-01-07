@@ -5,33 +5,32 @@ using UnityEngine;
 [System.Serializable]
 public class Ball : MonoBehaviour
 {
-    //Ball will constantly go to the dribble position of the player in possession
+    // Ball will constantly go to the dribble position of the player in possession
     public PlayerController playerInPoss;
     
-    private Vector3 targetPos;
+    // this lets us access from any other script via Ball.instance
+    public static Ball instance;
+    // this lets us access ball's rigidbody from other scripts
+    private Rigidbody rb;
 
+    private Vector3 targetPos;
     [SerializeField]
     private int ballSpeed;
 
-    // this lets us access from any other script via Ball.instance
-    public static Ball instance;
-
-    //this lets us access ball's rigidbody from other scripts
-    private Rigidbody rb;
-
     private enum BallState{Idle, Dribbling, Passing};
-
     private BallState ballState;
     
-
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         if (Ball.instance == null)
         {
             Ball.instance = this;
         }
+    }
 
+    // Start is called before the first frame update
+    void Start()
+    {
         targetPos = Vector3.zero;
         ballState = BallState.Idle;
         rb = this.GetComponent<Rigidbody>();
