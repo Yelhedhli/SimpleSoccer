@@ -56,7 +56,6 @@ public class Ball : MonoBehaviour
     }
 
     private void Pass(){
-        print("Pass");
     }
 
     private void Dribble(){
@@ -64,7 +63,10 @@ public class Ball : MonoBehaviour
     }
 
     public void PassTo(PlayerController target){
-        playerInPoss = target;
+        playerInPoss = null;
+        ballState = BallState.Passing;
+        targetPos = target.transform.position;
+        target.RecievePass();
     }
 
     public bool Steal(PlayerController stealer){

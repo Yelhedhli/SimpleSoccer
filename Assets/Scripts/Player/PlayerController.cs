@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Collider ballStealCollider;
     private PlayerManager playerManager;
     
-    private enum BrainState{Player, Offense, Defense}
+    private enum BrainState{Player, Offense, Defense, RecievePass}
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
     [SerializeField] 
@@ -96,5 +96,10 @@ public class PlayerController : MonoBehaviour
         if(!playerControlled){
             SetAIControlled();
         }
+    }
+
+    public void RecievePass(){
+        ballStealCollider.enabled = true;
+        brainState = BrainState.RecievePass;
     }
 }
