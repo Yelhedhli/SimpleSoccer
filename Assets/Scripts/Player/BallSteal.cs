@@ -18,6 +18,6 @@ public class BallSteal : MonoBehaviour
 
     private void OnTriggerStay(Collider other){
         string s = LayerMask.LayerToName(other.transform.gameObject.layer);
-        print("Object: " + other.ToString() + "; Layer: " + s);
+        //print("Object: " + other.ToString() + "; Layer: " + s);
     }
 }

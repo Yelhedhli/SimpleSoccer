@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ball = GameObject.Find("Ball").GetComponent<Ball>();
+        ball = Ball.instance;
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
         activePlayer.hasBall = true;

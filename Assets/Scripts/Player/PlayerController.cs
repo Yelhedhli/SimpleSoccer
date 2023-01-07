@@ -21,12 +21,12 @@ public class PlayerController : MonoBehaviour
 
     public bool hasBall = false;
 
-    private Ball ball;
+    private Ball ball; // leave this logic in for eventual implementation of shooting
 
     // Start is called before the first frame update
     void Start()
     {
-        ball = Ball.instance; // leave this logic in for eventual implementation of shooting
+        ball = Ball.instance;
     }
 
     // Update is called once per frame
