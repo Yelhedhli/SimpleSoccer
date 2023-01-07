@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [System.Serializable]
@@ -25,6 +26,8 @@ public class PlayerManager : MonoBehaviour
 
     private Ball ball;
 
+    private bool teamInPoss = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,11 +49,10 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         if(Input.GetButtonDown("SwitchPlayer")){
-            PlayerController[] targetPlayers = GetTargets();
-            if(targetPlayers.Length != 0){
-                print(targetPlayers[0]);
-                SwitchPlayer(targetPlayers[0]);
-                ball.PassTo(activePlayer);
+            if(teamInPoss){
+                Pass();
+            }else{
+                SwitchDefender();
             }
         }
     }
@@ -114,6 +116,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void Steal(PlayerController stealer){
+        teamInPoss = true;
         SwitchPlayer(stealer);
         foreach(PlayerController p in teamPlayers){
             p.SwitchToOffense();
@@ -121,8 +124,24 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void Stolen(){
+        teamInPoss = false;
         foreach(PlayerController p in teamPlayers){
             p.SwitchToDefense();
         }
+    }
+
+    private void Pass(){
+        PlayerController[] targetPlayers = GetTargets();
+        if(targetPlayers.Length != 0){
+            print(targetPlayers[0]);
+            SwitchPlayer(targetPlayers[0]);
+            ball.PassTo(activePlayer);
+        }
+    }
+
+    private void SwitchDefender(){
+        List<PlayerController> targetList = new List<PlayerController>(teamPlayers.OrderBy(p => Vector3.Distance(ball.transform.position, p.transform.position)));
+        targetList.Remove(activePlayer);
+        SwitchPlayer(targetList[0]);
     }
 }
