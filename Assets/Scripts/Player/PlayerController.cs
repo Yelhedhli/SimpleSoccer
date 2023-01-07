@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToOffense(){
-        ballStealCollider.isTrigger = false;
+        ballStealCollider.enabled = false;
         teamInPoss = true;
         if(!playerControlled){
             SetAIControlled();
@@ -96,7 +96,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToDefense(){
-        ballStealCollider.isTrigger = true;
+        ballStealCollider.enabled = true;
         teamInPoss = false;
         if(!playerControlled){
             SetAIControlled();

@@ -21,6 +21,7 @@ public class BallSteal : MonoBehaviour
     }
 
     private void OnTriggerStay(Collider other){ 
+        print("a");
         ball = Ball.instance;
         playerManager = PlayerManager.instance;
         if(ball.Steal(playerController)){
