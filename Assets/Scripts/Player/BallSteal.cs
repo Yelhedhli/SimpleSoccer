@@ -8,10 +8,16 @@ public class BallSteal : MonoBehaviour
     private PlayerManager playerManager;
     private PlayerController playerController;
 
+    void Awake()
+    {
+        playerManager = GetComponentInParent<PlayerManager>();
+        playerController = this.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        playerController = this.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
+        ball = Ball.instance;
     }
 
     // Update is called once per frame
@@ -20,10 +26,7 @@ public class BallSteal : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other){ 
-        print("a");
-        ball = Ball.instance;
-        playerManager = PlayerManager.instance;
+    private void OnTriggerStay(Collider other){
         if(ball.Steal(playerController)){
             playerManager.Steal(playerController);
         }

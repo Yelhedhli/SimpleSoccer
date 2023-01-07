@@ -7,34 +7,31 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Ball ball; // leave this logic in for eventual implementation of shooting
-
     private Collider ballStealCollider;
+    private PlayerManager playerManager;
     
     private enum BrainState{Player, Offense, Defense}
-
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
     [SerializeField] 
     private float speed = 10;
-
     [SerializeField] 
     private float rotationSpeed = 720;
-
     [SerializeField]
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
     private bool playerControlled = false;
 
-    private bool teamInPoss = false;
+    void Awake()
+    {
+        ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
+        playerManager = GetComponentInParent<PlayerManager>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         ball = Ball.instance;
-    }
-
-    void Awake(){
-        ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
     }
 
     // Update is called once per frame
@@ -62,7 +59,7 @@ public class PlayerController : MonoBehaviour
     }
 
     Vector3 GetMovementVector(){
-        //  take user input
+        // take user input
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
 
@@ -80,7 +77,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetAIControlled(){
         playerControlled = false;
-        if(teamInPoss){
+        if(playerManager.teamInPoss){
             brainState = BrainState.Offense;
         }else{
             brainState = BrainState.Defense;
@@ -89,7 +86,6 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchToOffense(){
         ballStealCollider.enabled = false;
-        teamInPoss = true;
         if(!playerControlled){
             SetAIControlled();
         }
@@ -97,7 +93,6 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchToDefense(){
         ballStealCollider.enabled = true;
-        teamInPoss = false;
         if(!playerControlled){
             SetAIControlled();
         }

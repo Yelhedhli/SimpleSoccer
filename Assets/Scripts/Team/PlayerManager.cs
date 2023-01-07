@@ -7,35 +7,25 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerManager : MonoBehaviour
 {
-    public static PlayerManager instance;
+    private Ball ball;
+    
+    public bool teamInPoss = false;
 
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
 
     private Vector3 capsuleStart;
-    private Vector3 capsuleEnd;
-    
+    private Vector3 capsuleEnd; 
     [SerializeField]
     private int capsuleRadius;
-
     [SerializeField]
     private int passSelectorLength;
-
     [SerializeField]
     private LayerMask playerLayerMask;
-
-    private Ball ball;
-
-    private bool teamInPoss = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        if (PlayerManager.instance == null)
-        {
-            PlayerManager.instance = this;
-        }
-
         ball = Ball.instance;
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
@@ -133,7 +123,6 @@ public class PlayerManager : MonoBehaviour
     private void Pass(){
         PlayerController[] targetPlayers = GetTargets();
         if(targetPlayers.Length != 0){
-            print(targetPlayers[0]);
             SwitchPlayer(targetPlayers[0]);
             ball.PassTo(activePlayer);
         }
