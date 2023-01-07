@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
         activePlayer = teamPlayers[0];
         activePlayer.SetPlayerControlled();
         foreach(PlayerController p in teamPlayers){
-            p.SwitchToOffense();
+            p.SwitchToDefense();
         }
     }
 

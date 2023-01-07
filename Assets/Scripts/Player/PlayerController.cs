@@ -7,6 +7,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private Ball ball; // leave this logic in for eventual implementation of shooting
+
+    private Collider ballStealCollider;
     
     private enum BrainState{Player, Offense, Defense}
 
@@ -29,6 +31,10 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         ball = Ball.instance;
+    }
+
+    void Awake(){
+        ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
     }
 
     // Update is called once per frame
@@ -82,6 +88,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToOffense(){
+        ballStealCollider.isTrigger = false;
         teamInPoss = true;
         if(!playerControlled){
             SetAIControlled();
@@ -89,6 +96,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToDefense(){
+        ballStealCollider.isTrigger = true;
         teamInPoss = false;
         if(!playerControlled){
             SetAIControlled();
