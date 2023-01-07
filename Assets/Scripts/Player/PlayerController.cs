@@ -6,9 +6,11 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerController : MonoBehaviour
 {
-    public enum BrainState{Player, Offense, Defense}
+    private Ball ball; // leave this logic in for eventual implementation of shooting
+    
+    private enum BrainState{Player, Offense, Defense}
 
-    public BrainState brainState; 
+    private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
     [SerializeField] 
     private float speed = 10;
@@ -19,9 +21,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
-    public bool hasBall = false;
+    private bool playerControlled = false;
 
-    private Ball ball; // leave this logic in for eventual implementation of shooting
+    private bool teamInPoss = false;
 
     // Start is called before the first frame update
     void Start()
@@ -53,14 +55,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void SetPlayerControlled(){
-        brainState = BrainState.Player;
-    }
-
-    public void SetAIControlled(){
-        brainState = BrainState.Offense;
-    }
-
     Vector3 GetMovementVector(){
         //  take user input
         float h = Input.GetAxisRaw("Horizontal");
@@ -71,5 +65,33 @@ public class PlayerController : MonoBehaviour
         movementVector.Normalize();
 
         return movementVector;
+    }
+
+    public void SetPlayerControlled(){
+        playerControlled = true;
+        brainState = BrainState.Player;
+    }
+
+    public void SetAIControlled(){
+        playerControlled = false;
+        if(teamInPoss){
+            brainState = BrainState.Offense;
+        }else{
+            brainState = BrainState.Defense;
+        }
+    }
+
+    public void SwitchToOffense(){
+        teamInPoss = true;
+        if(!playerControlled){
+            SetAIControlled();
+        }
+    }
+
+    public void SwitchToDefense(){
+        teamInPoss = false;
+        if(!playerControlled){
+            SetAIControlled();
+        }
     }
 }

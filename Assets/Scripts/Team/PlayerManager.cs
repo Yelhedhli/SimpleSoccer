@@ -6,6 +6,8 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerManager : MonoBehaviour
 {
+    public static PlayerManager instance;
+
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
 
@@ -26,12 +28,18 @@ public class PlayerManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (PlayerManager.instance == null)
+        {
+            PlayerManager.instance = this;
+        }
+
         ball = Ball.instance;
         teamPlayers = GetComponentsInChildren<PlayerController>();
         activePlayer = teamPlayers[0];
-        activePlayer.hasBall = true;
         activePlayer.SetPlayerControlled();
-        ball.PassTo(activePlayer);
+        foreach(PlayerController p in teamPlayers){
+            p.SwitchToOffense();
+        }
     }
 
     // Update is called once per frame
@@ -42,6 +50,7 @@ public class PlayerManager : MonoBehaviour
             if(targetPlayers.Length != 0){
                 print(targetPlayers[0]);
                 SwitchPlayer(targetPlayers[0]);
+                ball.PassTo(activePlayer);
             }
         }
     }
@@ -57,11 +66,8 @@ public class PlayerManager : MonoBehaviour
 
     void SwitchPlayer(PlayerController target){
         activePlayer.SetAIControlled();
-        activePlayer.hasBall = false;
         activePlayer = target;
         activePlayer.SetPlayerControlled();
-        activePlayer.hasBall = true;
-        ball.PassTo(activePlayer);
     }
 
     PlayerController[] GetTargets(){
@@ -107,4 +113,16 @@ public class PlayerManager : MonoBehaviour
         return activePlayer.transform.position + movementVector * passSelectorLength;
     }
 
+    public void Steal(PlayerController stealer){
+        SwitchPlayer(stealer);
+        foreach(PlayerController p in teamPlayers){
+            p.SwitchToOffense();
+        }
+    }
+
+    public void Stolen(){
+        foreach(PlayerController p in teamPlayers){
+            p.SwitchToDefense();
+        }
+    }
 }

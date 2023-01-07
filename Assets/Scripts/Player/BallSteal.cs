@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class BallSteal : MonoBehaviour
 {
+    private Ball ball;
+    private PlayerManager playerManager;
+    private PlayerController playerController;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        playerController = this.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
     }
 
     // Update is called once per frame
@@ -16,8 +20,11 @@ public class BallSteal : MonoBehaviour
         
     }
 
-    private void OnTriggerStay(Collider other){
-        string s = LayerMask.LayerToName(other.transform.gameObject.layer);
-        //print("Object: " + other.ToString() + "; Layer: " + s);
+    private void OnTriggerStay(Collider other){ 
+        ball = Ball.instance;
+        playerManager = PlayerManager.instance;
+        if(ball.Steal(playerController)){
+            playerManager.Steal(playerController);
+        }
     }
 }
