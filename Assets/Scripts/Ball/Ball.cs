@@ -56,11 +56,13 @@ public class Ball : MonoBehaviour
 
     private void Pass(){
         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime * passStrength);
+        //rb.MovePosition(targetPos);
     }
 
     private void Dribble(){
         targetPos = playerInPoss.dribblePos.transform.position;
         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
+        //rb.MovePosition(targetPos);
     }
 
     public void PassTo(PlayerController target, float localPassStrength){
