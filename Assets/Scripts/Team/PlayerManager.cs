@@ -67,10 +67,8 @@ public class PlayerManager : MonoBehaviour
         activePlayer.SetPlayerControlled();
     }
 
-    PlayerController[] GetTargets(){
+    PlayerController[] GetTargets(Vector3 movementVector){
         List<PlayerController> targetList = new List<PlayerController>(); 
-
-        Vector3 movementVector = GetMovementVector();
 
         if(movementVector == Vector3.zero){
             return targetList.ToArray();
@@ -147,12 +145,11 @@ public class PlayerManager : MonoBehaviour
     }
 
     private void Pass(){
-        PlayerController[] targetPlayers = GetTargets();
-        foreach(PlayerController p in targetPlayers){
-            print(p);
-        }
+        Vector3 movementVector = GetMovementVector();
+        PlayerController[] targetPlayers = GetTargets(movementVector);
         if(targetPlayers.Length != 0){
-            SwitchPlayer(targetPlayers[0]);
+            PlayerController target = GetCenterest(targetPlayers, movementVector);
+            SwitchPlayer(target);
             ball.PassTo(activePlayer);
         }
     }
@@ -161,5 +158,40 @@ public class PlayerManager : MonoBehaviour
         List<PlayerController> targetList = new List<PlayerController>(teamPlayers.OrderBy(p => Vector3.Distance(ball.transform.position, p.transform.position)));
         targetList.Remove(activePlayer);
         SwitchPlayer(targetList[0]);
+    }
+
+    private PlayerController GetCenterest(PlayerController[] targetPlayers, Vector3 movementVector){
+        float minDistance = DistancePointLine(targetPlayers[0].transform.position, CalculateCapsuleStart(movementVector), CalculateCapsuleEnd(movementVector));
+        PlayerController target = targetPlayers[0];
+        foreach(PlayerController p in targetPlayers){
+            float distance = DistancePointLine(p.transform.position, CalculateCapsuleStart(movementVector), CalculateCapsuleEnd(movementVector));
+            print(p + " : " + distance);
+            if(distance < minDistance){
+                minDistance = distance;
+                target = p;
+            }
+        }
+
+        return target;
+    }
+
+    private float DistancePointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+    {
+        return Vector3.Magnitude(ProjectPointLine(point, lineStart, lineEnd) - point);
+    }
+
+    private Vector3 ProjectPointLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd)
+    {
+        Vector3 relativePoint = point - lineStart;
+        Vector3 lineDirection = lineEnd - lineStart;
+        float length = lineDirection.magnitude;
+        Vector3 normalizedLineDirection = lineDirection;
+        if (length > .000001f)
+            normalizedLineDirection /= length;
+
+        float dot = Vector3.Dot(normalizedLineDirection, relativePoint);
+        dot = Mathf.Clamp(dot, 0.0F, length);
+
+        return lineStart + normalizedLineDirection * dot;
     }
 }
