@@ -82,7 +82,7 @@ public class PlayerManager : MonoBehaviour
 
         foreach(Collider c in found){
             PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
-            if(target != activePlayer){
+            if(target != activePlayer && !targetList.Contains(target)){
                 targetList.Add(target);
             }
         }
@@ -95,14 +95,14 @@ public class PlayerManager : MonoBehaviour
 
             foreach(Collider c in found){
                 PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
-                if(target != activePlayer){
+                if(target != activePlayer && !targetList.Contains(target)){
                     targetList.Add(target);
                 }
             }
 
             foreach(Collider c in found2){
                 PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
-                if(target != activePlayer){
+                if(target != activePlayer && !targetList.Contains(target)){
                     targetList.Add(target);
                 }
             }
@@ -148,6 +148,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Pass(){
         PlayerController[] targetPlayers = GetTargets();
+        foreach(PlayerController p in targetPlayers){
+            print(p);
+        }
         if(targetPlayers.Length != 0){
             SwitchPlayer(targetPlayers[0]);
             ball.PassTo(activePlayer);
