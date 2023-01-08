@@ -50,9 +50,14 @@ public class PlayerManager : MonoBehaviour
     void OnDrawGizmos(){
         if (activePlayer != null){
             Vector3 movementVector = GetMovementVector();
+            Vector3 orthogonalVector = Vector3.Cross(movementVector, Vector3.up);
             capsuleStart = CalculateCapsuleStart(movementVector);
             capsuleEnd = CalculateCapsuleEnd(movementVector);
             GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd, capsuleRadius);
+
+            // to visualize colliders for progressive target sweeping
+            //GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd+orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3); 
+            //GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd-orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3);
         }
     }
 
@@ -79,6 +84,27 @@ public class PlayerManager : MonoBehaviour
             PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
             if(target != activePlayer){
                 targetList.Add(target);
+            }
+        }
+
+        if(targetList.Count == 0){
+            Vector3 orthogonalVector = Vector3.Cross(movementVector, Vector3.up);
+
+            found = Physics.OverlapCapsule(capsuleStart, capsuleEnd+orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3, playerLayerMask);
+            Collider[] found2 = Physics.OverlapCapsule(capsuleStart, capsuleEnd-orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3, playerLayerMask);
+
+            foreach(Collider c in found){
+                PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
+                if(target != activePlayer){
+                    targetList.Add(target);
+                }
+            }
+
+            foreach(Collider c in found2){
+                PlayerController target = c.transform.parent.gameObject.GetComponentInChildren<PlayerController>();
+                if(target != activePlayer){
+                    targetList.Add(target);
+                }
             }
         }
 
