@@ -391,6 +391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e5632a09b79e3543b9633274ea95c5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  teamInPoss: 0
   teamPlayers: []
   activePlayer: {fileID: 0}
   capsuleRadius: 3
@@ -398,6 +399,7 @@ MonoBehaviour:
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  passStrengthModifier: 2
 --- !u!4 &1098149401
 Transform:
   m_ObjectHideFlags: 0

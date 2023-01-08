@@ -16,6 +16,7 @@ public class Ball : MonoBehaviour
     private Vector3 targetPos;
     [SerializeField]
     private int ballSpeed;
+    private float passStrength;
 
     private enum BallState{Idle, Dribbling, Passing};
     private BallState ballState;
@@ -51,18 +52,19 @@ public class Ball : MonoBehaviour
                 Pass();
                 break;
         }
-
-         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
     }
 
     private void Pass(){
+        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime * passStrength);
     }
 
     private void Dribble(){
         targetPos = playerInPoss.dribblePos.transform.position;
+        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
     }
 
-    public void PassTo(PlayerController target){
+    public void PassTo(PlayerController target, float localPassStrength){
+        passStrength = localPassStrength;
         playerInPoss = null;
         ballState = BallState.Passing;
         targetPos = target.dribblePos.transform.position;
