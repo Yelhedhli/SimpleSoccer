@@ -52,7 +52,7 @@ public class PlayerManager : MonoBehaviour
             }else if(!teamInPoss){
                 SwitchDefender();
             }
-            print(passStrength);
+            print("passStrength : " + passStrength);
             passStrength = 0;
         }
     }

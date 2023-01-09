@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
 
     private bool playerControlled = false;
 
+    [SerializeField]
+    private float shotStrengthModifier;
+    private float shotStrength; 
+
     void Awake()
     {
         ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
@@ -37,7 +41,20 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        switch(brainState){
+            case BrainState.Player:
+                if(playerManager.teamInPoss){
+                    if(Input.GetButton("Shoot")){
+                        shotStrength += Time.deltaTime*shotStrengthModifier;
+                    }
+                    if(Input.GetButtonUp("Shoot")){
+                        shotStrength = Mathf.Clamp(shotStrength, 0, 1);
+                        print("shotStrength : " + shotStrength);
+                        shotStrength = 0;
+                    }
+                }
+                break;
+        }
     }
 
     void FixedUpdate()
@@ -58,6 +75,7 @@ public class PlayerController : MonoBehaviour
 
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
                 }
+
                 break;
 
             case BrainState.RecievePass:

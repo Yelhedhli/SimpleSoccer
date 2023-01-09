@@ -327,11 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7674d7c33a67a7542a6b46547d0463a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brainState: 1
   speed: 10
   rotationSpeed: 720
   dribblePos: {fileID: 5182626859741395664}
-  hasBall: 0
+  shotStrengthModifier: 2
 --- !u!54 &6574849258604843789
 Rigidbody:
   m_ObjectHideFlags: 0
