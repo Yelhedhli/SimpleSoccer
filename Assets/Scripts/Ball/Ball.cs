@@ -5,8 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class Ball : MonoBehaviour
 {
-    // Ball will constantly go to the dribble position of the player in possession
     public PlayerController playerInPoss;
+
+    private Net enemyNet;
     
     // this lets us access from any other script via Ball.instance
     public static Ball instance;
@@ -18,7 +19,7 @@ public class Ball : MonoBehaviour
     private int ballSpeed;
     private float passStrength;
 
-    private enum BallState{Idle, Dribbling, Passing};
+    private enum BallState{Idle, Dribbling, Passing, Shooting};
     private BallState ballState;
     
     void Awake()
@@ -27,6 +28,8 @@ public class Ball : MonoBehaviour
         {
             Ball.instance = this;
         }
+
+        enemyNet = FindObjectOfType<Net>();
     }
 
     // Start is called before the first frame update
@@ -50,6 +53,10 @@ public class Ball : MonoBehaviour
 
             case BallState.Passing:
                 Pass();
+                break;
+
+            case BallState.Shooting:
+                Shoot();
                 break;
         }
     }
@@ -80,5 +87,15 @@ public class Ball : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public void ShootBall(){
+        ballState = BallState.Shooting;
+        targetPos = enemyNet.transform.position;
+        print(targetPos);
+    }
+
+    private void Shoot(){
+        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
     }
 }
