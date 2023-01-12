@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private Ball ball; // leave this logic in for eventual implementation of shooting
     private Collider ballStealCollider;
     private PlayerManager playerManager;
+    private Net enemyNet;
     
     private enum BrainState{Player, Offense, Defense, RecievePass}
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
@@ -22,10 +23,15 @@ public class PlayerController : MonoBehaviour
 
     private bool playerControlled = false;
 
+    [SerializeField]
+    private float shotStrengthModifier;
+    private float shotStrength; 
+
     void Awake()
     {
         ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
         playerManager = GetComponentInParent<PlayerManager>();
+        enemyNet = FindObjectOfType<Net>();
     }
 
     // Start is called before the first frame update
@@ -37,7 +43,21 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        switch(brainState){
+            case BrainState.Player:
+                if(playerManager.teamInPoss){
+                    if(Input.GetButton("Shoot")){
+                        shotStrength += Time.deltaTime*shotStrengthModifier;
+                    }
+                    if(Input.GetButtonUp("Shoot")){
+                        shotStrength = Mathf.Clamp(shotStrength, 0, 1);
+                        Shoot();
+                        print("shotStrength : " + shotStrength);
+                        shotStrength = 0;
+                    }
+                }
+                break;
+        }
     }
 
     void FixedUpdate()
@@ -58,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
                 }
+
                 break;
 
             case BrainState.RecievePass:
@@ -117,5 +138,9 @@ public class PlayerController : MonoBehaviour
     public void RecievePass(){
         ballStealCollider.enabled = true;
         brainState = BrainState.RecievePass;
+    }
+
+    void Shoot(){
+        ball.ShootBall();
     }
 }
