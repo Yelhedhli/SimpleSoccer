@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4085c5ecc6805434398d54d3f0b3f049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPos: {x: 0, y: 0, z: 0}
+  playerInPoss: {fileID: 0}
   ballSpeed: 20
-  playerInPossession: {fileID: 0}
+  maxPassVelocity: 60
+  maxShotVelocity: 100
