@@ -129,5 +129,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInPoss: {fileID: 0}
   ballSpeed: 20
-  maxPassVelocity: 75
+  maxPassVelocity: 60
   maxShotVelocity: 100
