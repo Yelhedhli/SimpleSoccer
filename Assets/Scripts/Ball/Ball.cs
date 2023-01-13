@@ -17,7 +17,10 @@ public class Ball : MonoBehaviour
     private Vector3 targetPos;
     [SerializeField]
     private int ballSpeed;
-    private float passStrength;
+    [SerializeField]
+    private int maxPassVelocity;
+    [SerializeField]
+    private int maxShotVelocity;
 
     private enum BallState{Idle, Dribbling, Passing, Shooting};
     private BallState ballState;
@@ -43,45 +46,31 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        switch(ballState){
-            case BallState.Idle:
-                break;
-            
+        switch(ballState){            
             case BallState.Dribbling:
                 Dribble();
                 break;
-
-            case BallState.Passing:
-                Pass();
-                break;
-
-            case BallState.Shooting:
-                Shoot();
-                break;
         }
-    }
-
-    private void Pass(){
-        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime * passStrength);
-        //rb.MovePosition(targetPos);
     }
 
     private void Dribble(){
         targetPos = playerInPoss.dribblePos.transform.position;
         this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
-        //rb.MovePosition(targetPos);
     }
 
-    public void PassTo(PlayerController target, float localPassStrength){
-        passStrength = localPassStrength;
+    public void PassTo(PlayerController target, float passStrength){
+        Vector3 forceDirection = target.dribblePos.transform.position - this.transform.position;
+        forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Passing;
-        targetPos = target.dribblePos.transform.position;
+        rb.AddForce(forceDirection*maxPassVelocity*passStrength, ForceMode.VelocityChange);
         target.RecievePass();
     }
 
     public bool Steal(PlayerController stealer){
         if(playerInPoss == null){
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
             playerInPoss = stealer;
             ballState = BallState.Dribbling;
             return true;
@@ -89,13 +78,11 @@ public class Ball : MonoBehaviour
         return false;
     }
 
-    public void ShootBall(){
+    public void ShootBall(float shotStrength){
+        Vector3 forceDirection = enemyNet.transform.position - this.transform.position;
+        forceDirection.Normalize();
+        playerInPoss = null;
         ballState = BallState.Shooting;
-        targetPos = enemyNet.transform.position;
-        print(targetPos);
-    }
-
-    private void Shoot(){
-        this.transform.position = Vector3.MoveTowards(this.transform.position, targetPos, ballSpeed * Time.deltaTime);
+        rb.AddForce(forceDirection*maxShotVelocity*shotStrength, ForceMode.VelocityChange);
     }
 }

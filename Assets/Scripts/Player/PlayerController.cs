@@ -141,6 +141,6 @@ public class PlayerController : MonoBehaviour
     }
 
     void Shoot(){
-        ball.ShootBall();
+        ball.ShootBall(shotStrength);
     }
 }
