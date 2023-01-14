@@ -25,7 +25,14 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private float shotStrengthModifier;
-    private float shotStrength; 
+    private float shotStrength;
+
+    [SerializeField]
+    private string xInput;
+    [SerializeField]
+    private string yInput;
+    [SerializeField]
+    private string shootInput;
 
     void Awake()
     {
@@ -46,10 +53,10 @@ public class PlayerController : MonoBehaviour
         switch(brainState){
             case BrainState.Player:
                 if(playerManager.teamInPoss){
-                    if(Input.GetButton("Shoot")){
+                    if(Input.GetButton(shootInput)){
                         shotStrength += Time.deltaTime*shotStrengthModifier;
                     }
-                    if(Input.GetButtonUp("Shoot")){
+                    if(Input.GetButtonUp(shootInput)){
                         shotStrength = Mathf.Clamp(shotStrength, 0, 1);
                         Shoot();
                         print("shotStrength : " + shotStrength);
@@ -97,8 +104,8 @@ public class PlayerController : MonoBehaviour
 
     Vector3 GetMovementVector(){
         // take user input
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw(xInput);
+        float v = Input.GetAxisRaw(yInput);
 
         // calc movement vector
         Vector3 movementVector = new Vector3(h, 0, v);
