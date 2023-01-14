@@ -572,8 +572,9 @@ MonoBehaviour:
   teamInPoss: 0
   teamPlayers: []
   activePlayer: {fileID: 0}
+  otherTeam: {fileID: 1349287125}
   capsuleRadius: 3
-  passSelectorLength: 30
+  passSelectorLength: 45
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -937,8 +938,9 @@ MonoBehaviour:
   teamInPoss: 0
   teamPlayers: []
   activePlayer: {fileID: 0}
+  otherTeam: {fileID: 1098149400}
   capsuleRadius: 3
-  passSelectorLength: 30
+  passSelectorLength: 45
   playerLayerMask:
     serializedVersion: 2
     m_Bits: 2048
