@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     private Net enemyNet;
     
     private enum BrainState{Player, Offense, Defense, RecievePass}
+    [SerializeField] 
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
     [SerializeField] 
@@ -136,9 +137,13 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToDefense(){
+        //print("switchtodefense");
         ballStealCollider.enabled = true;
         if(!playerControlled){
             SetAIControlled();
+        }else{
+            brainState = BrainState.Player;
+            //print("switched");
         }
     }
 

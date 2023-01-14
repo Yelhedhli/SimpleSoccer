@@ -75,8 +75,13 @@ public class Ball : MonoBehaviour
             playerInPoss = stealer;
             ballState = BallState.Dribbling;
             return true;
+        }else{
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            playerInPoss = stealer;
+            ballState = BallState.Dribbling;
+            return true;
         }
-        return false;
     }
 
     public void ShootBall(float shotStrength){
