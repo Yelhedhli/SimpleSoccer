@@ -25,7 +25,13 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private float passStrengthModifier;
     private float passStrength;
-    
+
+    [SerializeField]
+    private string switchPlayerInput;
+    [SerializeField]
+    private string xInput;
+    [SerializeField]
+    private string yInput;
 
     // Start is called before the first frame update
     void Start()
@@ -42,10 +48,10 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("SwitchPlayer")){
+        if(Input.GetButton(switchPlayerInput)){
             passStrength += Time.deltaTime*passStrengthModifier;
         }
-        if(Input.GetButtonUp("SwitchPlayer")){
+        if(Input.GetButtonUp(switchPlayerInput)){
             passStrength = Mathf.Clamp(passStrength, 0, 1);
             if(teamInPoss && ball.playerInPoss != null){
                 Pass();
@@ -126,8 +132,8 @@ public class PlayerManager : MonoBehaviour
 
     Vector3 GetMovementVector(){
         //  take user input
-        float h = Input.GetAxisRaw("Horizontal");
-        float v = Input.GetAxisRaw("Vertical");
+        float h = Input.GetAxisRaw(xInput);
+        float v = Input.GetAxisRaw(yInput);
 
         // calc movement vector
         Vector3 movementVector = new Vector3(h, 0, v);
