@@ -63,6 +63,7 @@ public class Ball : MonoBehaviour
         forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Passing;
+        passStrength = Mathf.Clamp(passStrength, 0.3f, 1);
         rb.AddForce(forceDirection*maxPassVelocity*passStrength, ForceMode.VelocityChange);
         target.RecievePass();
     }
@@ -83,6 +84,7 @@ public class Ball : MonoBehaviour
         forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Shooting;
+        shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
         rb.AddForce(forceDirection*maxShotVelocity*shotStrength, ForceMode.VelocityChange);
     }
 }
