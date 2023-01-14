@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
 
+    public PlayerManager otherTeam;
+
     private Vector3 capsuleStart;
     private Vector3 capsuleEnd; 
     [SerializeField]
@@ -77,8 +79,8 @@ public class PlayerManager : MonoBehaviour
             // GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd, capsuleRadius);
 
             // to visualize second stage colliders for progressive target sweeping
-            //GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd+orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3); 
-            //GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd-orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3);
+            // GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd+orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3); 
+            // GizmoHelper.DrawWireCapsule(capsuleStart, capsuleEnd-orthogonalVector*capsuleRadius*3/2, capsuleRadius*2/3);
         }
     }
 
@@ -151,6 +153,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void Steal(PlayerController stealer){
+        otherTeam.Stolen();
         teamInPoss = true;
         SwitchPlayer(stealer);
         foreach(PlayerController p in teamPlayers){
