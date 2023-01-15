@@ -69,19 +69,15 @@ public class Ball : MonoBehaviour
     }
 
     public bool Steal(PlayerController stealer){
-        if(playerInPoss == null){
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            playerInPoss = stealer;
-            ballState = BallState.Dribbling;
-            return true;
-        }else{
+        if( (playerInPoss == null) || (Vector3.Distance(this.transform.position, playerInPoss.transform.position) > Vector3.Distance(this.transform.position, stealer.transform.position)) ){
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             playerInPoss = stealer;
             ballState = BallState.Dribbling;
             return true;
         }
+
+        return false;
     }
 
     public void ShootBall(float shotStrength){
