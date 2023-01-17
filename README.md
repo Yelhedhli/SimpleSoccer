@@ -14,4 +14,4 @@ SimpleSoccer (working title) is a WIP arcade soccer game aiming to marry the all
 
 ## Documentation
 
-[Documentation (Under Construction)](https://www.notion.so/yelhedhli/SimpleSoccer-9fcc9e8f073f4f06b3192fedbf79e3c5)
+[Documentation (Under Construction)](https://yelhedhli.notion.site/SimpleSoccer-9fcc9e8f073f4f06b3192fedbf79e3c5)
