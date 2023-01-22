@@ -212,6 +212,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5280e0616f2a4e74797bd30597c924a3, type: 3}
+--- !u!114 &132633026 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5062555483887536143, guid: 76afc6ba4b39a414fae26bd87b3ba463,
+    type: 3}
+  m_PrefabInstance: {fileID: 5062555484028768945}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 399b8529d8beda34490abd2ab9ebd226, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &231898588
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -586,6 +598,7 @@ MonoBehaviour:
   teamPlayers: []
   activePlayer: {fileID: 0}
   otherTeam: {fileID: 1349287125}
+  opponentNet: {fileID: 132633026}
   capsuleRadius: 3
   passSelectorLength: 45
   playerLayerMask:
@@ -952,6 +965,7 @@ MonoBehaviour:
   teamPlayers: []
   activePlayer: {fileID: 0}
   otherTeam: {fileID: 1098149400}
+  opponentNet: {fileID: 132633026}
   capsuleRadius: 3
   passSelectorLength: 45
   playerLayerMask:

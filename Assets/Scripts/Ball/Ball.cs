@@ -80,8 +80,8 @@ public class Ball : MonoBehaviour
         return false;
     }
 
-    public void ShootBall(float shotStrength){
-        Vector3 forceDirection = enemyNet.transform.position - this.transform.position;
+    public void ShootBall(float shotStrength, Net opponentNet){
+        Vector3 forceDirection = opponentNet.transform.position - this.transform.position;
         forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Shooting;

@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public PlayerController activePlayer;
 
     public PlayerManager otherTeam;
+    public Net opponentNet;
 
     private Vector3 capsuleStart;
     private Vector3 capsuleEnd; 
