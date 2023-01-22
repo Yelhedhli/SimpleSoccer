@@ -5,7 +5,7 @@ SimpleSoccer (working title) is a WIP arcade soccer game aiming to marry the all
 
 ## Project Goals
 
-- 6 v 6 "Pure Fun" arcade soccer
+- 6 v 6 & 11 v 11 "Pure Fun" arcade soccer
 - Sharp, smooth, snappy controls
 - Intelligent player A.I.
 - Deep tactical systems
