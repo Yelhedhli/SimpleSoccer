@@ -153,6 +153,6 @@ public class PlayerController : MonoBehaviour
     }
 
     void Shoot(){
-        ball.ShootBall(shotStrength);
+        ball.ShootBall(shotStrength, playerManager.opponentNet);
     }
 }

@@ -6,8 +6,6 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     public PlayerController playerInPoss;
-
-    private Net enemyNet;
     
     // this lets us access from any other script via Ball.instance
     public static Ball instance;
@@ -31,8 +29,6 @@ public class Ball : MonoBehaviour
         {
             Ball.instance = this;
         }
-
-        enemyNet = FindObjectOfType<Net>();
     }
 
     // Start is called before the first frame update
@@ -80,8 +76,8 @@ public class Ball : MonoBehaviour
         return false;
     }
 
-    public void ShootBall(float shotStrength){
-        Vector3 forceDirection = enemyNet.transform.position - this.transform.position;
+    public void ShootBall(float shotStrength, Net opponentNet){
+        Vector3 forceDirection = opponentNet.transform.position - this.transform.position;
         forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Shooting;
