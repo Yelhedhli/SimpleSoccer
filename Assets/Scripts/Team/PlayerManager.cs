@@ -11,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     
     public bool teamInPoss = false;
 
+    public bool isTeam1;
+
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
 

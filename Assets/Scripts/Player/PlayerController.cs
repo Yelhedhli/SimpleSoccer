@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour
     private Ball ball; // leave this logic in for eventual implementation of shooting
     private Collider ballStealCollider;
     private PlayerManager playerManager;
-    private Goal enemyNet;
     
     private enum BrainState{Player, Offense, Defense, RecievePass}
     [SerializeField] 
@@ -39,7 +38,6 @@ public class PlayerController : MonoBehaviour
     {
         ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
         playerManager = GetComponentInParent<PlayerManager>();
-        enemyNet = FindObjectOfType<Goal>();
     }
 
     // Start is called before the first frame update
