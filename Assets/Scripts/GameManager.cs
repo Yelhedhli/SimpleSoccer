@@ -26,12 +26,13 @@ public class GameManager : MonoBehaviour
     {
         print("Team 1 scores a goal!");
         Team1Goals += 1;
-        //Here we load scene with
+        SceneManager.LoadScene("6v6Team2Adv");
     }
 
     public void GoalTeam2()
     {
         print("Team 2 scores a goal!");
         Team2Goals += 1;
+        SceneManager.LoadScene("6v6Team1Adv");
     }
 }

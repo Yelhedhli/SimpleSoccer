@@ -22,7 +22,7 @@ public class Ball : MonoBehaviour
 
     private enum BallState{Idle, Dribbling, Passing, Shooting};
     private BallState ballState;
-    
+
     void Awake()
     {
         if (Ball.instance == null)
@@ -37,6 +37,7 @@ public class Ball : MonoBehaviour
         targetPos = Vector3.zero;
         ballState = BallState.Idle;
         rb = this.GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
