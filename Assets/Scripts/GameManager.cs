@@ -1,24 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject Team1;
-    public GameObject Team2;
-
     public static GameManager instance;
+
+    public int Team1Goals;
+    public int Team2Goals;
 
     private void Awake()
     {
-        if (GameManager.instance == null)
+        if (GameManager.instance != null)
         {
-            GameManager.instance = this;
+            Destroy(gameObject);
+            return;
         }
+
+        instance = this;
+        DontDestroyOnLoad(this);
     }
 
-    public void Goal()
+    public void GoalTeam1()
     {
-        print("GOAL!");
+        print("Team 1 scores a goal!");
+        Team1Goals += 1;
+        //Here we load scene with
+    }
+
+    public void GoalTeam2()
+    {
+        print("Team 2 scores a goal!");
+        Team2Goals += 1;
     }
 }
