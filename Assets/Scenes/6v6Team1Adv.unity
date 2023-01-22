@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   teamInPoss: 0
   teamPlayers: []
-  activePlayer: {fileID: 0}
+  activePlayer: {fileID: 1466864186}
   otherTeam: {fileID: 1349287125}
   capsuleRadius: 3
   passSelectorLength: 45
@@ -1532,6 +1532,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 231898588}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1466864186 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+    type: 3}
+  m_PrefabInstance: {fileID: 231898588}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7674d7c33a67a7542a6b46547d0463a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1580864284 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
@@ -1747,8 +1759,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d862881db8cf7464683a84adec4cd3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Team1: {fileID: 0}
-  Team2: {fileID: 0}
+  Team1Goals: 0
+  Team2Goals: 0
 --- !u!4 &1763229257
 Transform:
   m_ObjectHideFlags: 0
@@ -2151,6 +2163,11 @@ PrefabInstance:
     - target: {fileID: 5062555483887536141, guid: 76afc6ba4b39a414fae26bd87b3ba463,
         type: 3}
       propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5062555483887536143, guid: 76afc6ba4b39a414fae26bd87b3ba463,
+        type: 3}
+      propertyPath: isTeam1Net
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5062555484510309675, guid: 76afc6ba4b39a414fae26bd87b3ba463,

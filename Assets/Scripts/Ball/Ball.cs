@@ -7,7 +7,7 @@ public class Ball : MonoBehaviour
 {
     public PlayerController playerInPoss;
 
-    private Net enemyNet;
+    private Goal enemyNet;
     
     // this lets us access from any other script via Ball.instance
     public static Ball instance;
@@ -32,7 +32,7 @@ public class Ball : MonoBehaviour
             Ball.instance = this;
         }
 
-        enemyNet = FindObjectOfType<Net>();
+        enemyNet = FindObjectOfType<Goal>();
     }
 
     // Start is called before the first frame update
