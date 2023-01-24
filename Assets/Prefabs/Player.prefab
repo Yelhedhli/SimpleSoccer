@@ -331,8 +331,8 @@ MonoBehaviour:
   speed: 10
   rotationSpeed: 720
   dribblePos: {fileID: 5182626859741395664}
-  maxShotDistance: 100
-  maxAimDeviation: 10
+  maxShotDistance: 2
+  maxAimDeviation: 2
   shotStrengthModifier: 2
   xInput: 
   yInput: 
