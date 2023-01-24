@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
 
     private bool playerControlled = false;
 
+    
+    [SerializeField]
+    private float maxShotDistance;
+    [SerializeField]
+    private float maxAimDeviation;
     [SerializeField]
     private float shotStrengthModifier;
     private float shotStrength;
@@ -151,6 +156,27 @@ public class PlayerController : MonoBehaviour
     }
 
     void Shoot(){
-        ball.ShootBall(shotStrength, playerManager.opponentNet);
+        // distance from the goal as a percentage of max distance from net
+        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.transform.position)/maxShotDistance, 0, 1);
+        
+        // how far from the center of net player is aiming as a percentage 
+        float deviationCoeff = Mathf.Clamp(GetAimDeviation()/maxAimDeviation, 0, 1);
+        
+        // how far above the nominal shot power a player's input is
+        float powerErr = Mathf.Clamp(shotStrength-distanceCoeff, 0, 1);
+
+        float shotAccuracy = Mathf.Clamp(1 - deviationCoeff - powerErr, 0, 1);
+        print("shotAccuracy: " + shotAccuracy);
+
+        // crude way to set a min shot strength
+        shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
+
+        Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
+
+        ball.ShootBall(shotStrength, target);
+    }
+
+    float GetAimDeviation(){
+        return 0;
     }
 }

@@ -77,12 +77,11 @@ public class Ball : MonoBehaviour
         return false;
     }
 
-    public void ShootBall(float shotStrength, Net opponentNet){
-        Vector3 forceDirection = opponentNet.transform.position - this.transform.position;
+    public void ShootBall(float shotStrength, Vector3 target){
+        Vector3 forceDirection = target - this.transform.position;
         forceDirection.Normalize();
         playerInPoss = null;
         ballState = BallState.Shooting;
-        shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
         rb.AddForce(forceDirection*maxShotVelocity*shotStrength, ForceMode.VelocityChange);
     }
 }
