@@ -39,8 +39,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private string shootInput;
 
-    private Vector3 aimIntersection;
-
     void Awake()
     {
         ballStealCollider = GetComponentInChildren<BallSteal>().GetComponentInChildren<Collider>();
@@ -106,10 +104,6 @@ public class PlayerController : MonoBehaviour
                 
                 break;
         }
-    }
-
-    void OnDrawGizmos(){
-        Gizmos.DrawWireSphere(aimIntersection, 1);
     }
 
     Vector3 GetMovementVector(){
