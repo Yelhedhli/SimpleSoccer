@@ -177,6 +177,21 @@ public class PlayerController : MonoBehaviour
     }
 
     float GetAimDeviation(){
-        return 0;
+        Vector3 intersection = Vector3.zero;
+        Vector3 movementVector = GetMovementVector();
+
+        Vector3 planeNormalizedPlayer = this.transform.position;
+        planeNormalizedPlayer.y = 0;
+
+        Vector3 planeNormalizedNet = playerManager.opponentNet.transform.position;
+        planeNormalizedNet.y = 0;
+
+        if(Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.back.normalized)){ // check intersection to one side of the net
+            return Vector3.Distance(intersection, planeNormalizedNet);
+        }else if(Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.forward.normalized)){ // check intersection to the other side of the net
+            return Vector3.Distance(intersection, planeNormalizedNet);
+        }else{ // player must not be facing the net
+            return maxAimDeviation;
+        }
     }
 }
