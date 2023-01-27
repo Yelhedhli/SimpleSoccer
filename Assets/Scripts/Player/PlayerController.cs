@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
     private double tackleTimer = 0;
+    [SerializeField]
+    private LayerMask tackleLayerMask;
 
     private bool playerControlled = false;
     
@@ -81,7 +83,7 @@ public class PlayerController : MonoBehaviour
                         tackleTimer -= Time.deltaTime;
                         return;
                     }
-                    
+
                     if(Input.GetButtonDown(slideTackleInput)){
                         tackleTimer = 0.6;
                         SlideTackle();
@@ -218,11 +220,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void SlideTackle(){
+    void SlideTackle(){        
         print("SlideTackle");
     }
 
     void StandingTackle(){
+        RaycastHit hitInfo;
+
+        if(Physics.SphereCast(this.transform.position, 1, GetMovementVector(), out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
+            if(hitInfo.collider.gameObject.tag == "Ball"){
+                print("asdfasdfasdf");
+                ball.Tackle(this);
+                playerManager.Steal(this);
+            }
+        }
+        
         print("StandingTackle");
     }
 
