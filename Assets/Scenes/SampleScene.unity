@@ -150,6 +150,21 @@ PrefabInstance:
       propertyPath: shootInput
       value: Shoot1
       objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
+      objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}
       propertyPath: m_RootOrder
@@ -238,6 +253,21 @@ PrefabInstance:
         type: 3}
       propertyPath: shootInput
       value: Shoot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
       objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}
@@ -583,6 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamInPoss: 0
+  isTeam1: 0
   teamPlayers: []
   activePlayer: {fileID: 0}
   otherTeam: {fileID: 1349287125}
@@ -650,6 +681,21 @@ PrefabInstance:
         type: 3}
       propertyPath: shootInput
       value: Shoot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
       objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}
@@ -950,6 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamInPoss: 0
+  isTeam1: 0
   teamPlayers: []
   activePlayer: {fileID: 0}
   otherTeam: {fileID: 1098149400}
@@ -1017,6 +1064,21 @@ PrefabInstance:
         type: 3}
       propertyPath: shootInput
       value: Shoot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
       objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}
@@ -1301,6 +1363,21 @@ PrefabInstance:
       propertyPath: shootInput
       value: Shoot2
       objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
+      objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}
       propertyPath: m_RootOrder
@@ -1515,6 +1592,21 @@ PrefabInstance:
         type: 3}
       propertyPath: shootInput
       value: Shoot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: slideTackleInput
+      value: Lob1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: standingTackleInput
+      value: Shoot1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6574849258604843790, guid: 5280e0616f2a4e74797bd30597c924a3,
+        type: 3}
+      propertyPath: tackleLayerMask.m_Bits
+      value: 2432
       objectReference: {fileID: 0}
     - target: {fileID: 6574849258604843791, guid: 5280e0616f2a4e74797bd30597c924a3,
         type: 3}

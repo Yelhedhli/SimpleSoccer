@@ -77,6 +77,13 @@ public class Ball : MonoBehaviour
         return false;
     }
 
+    public void Tackle(PlayerController stealer){
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        playerInPoss = stealer;
+        ballState = BallState.Dribbling;
+    }
+
     public void ShootBall(float shotStrength, Vector3 target){
         Vector3 forceDirection = target - this.transform.position;
         forceDirection.Normalize();

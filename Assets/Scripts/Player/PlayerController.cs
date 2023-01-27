@@ -21,8 +21,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
-    private bool playerControlled = false;
+    private double tackleTimer = 0;
+    [SerializeField]
+    private LayerMask tackleLayerMask;
 
+    private bool playerControlled = false;
     
     [SerializeField]
     private float maxShotDistance;
@@ -38,6 +41,10 @@ public class PlayerController : MonoBehaviour
     private string yInput;
     [SerializeField]
     private string shootInput;
+    [SerializeField]
+    private string slideTackleInput;
+    [SerializeField]
+    private string standingTackleInput;
 
     void Awake()
     {
@@ -57,6 +64,11 @@ public class PlayerController : MonoBehaviour
         switch(brainState){
             case BrainState.Player:
                 if(playerManager.teamInPoss){
+                    if(tackleTimer > 0){
+                        tackleTimer -= Time.deltaTime;
+                        return;
+                    }
+
                     if(Input.GetButton(shootInput)){
                         shotStrength += Time.deltaTime*shotStrengthModifier;
                     }
@@ -65,6 +77,19 @@ public class PlayerController : MonoBehaviour
                         Shoot();
                         print("shotStrength : " + shotStrength);
                         shotStrength = 0;
+                    }
+                }else{
+                    if(tackleTimer > 0){
+                        tackleTimer -= Time.deltaTime;
+                        return;
+                    }
+
+                    if(Input.GetButtonDown(slideTackleInput)){
+                        tackleTimer = 0.6;
+                        SlideTackle();
+                    }else if(Input.GetButtonDown(standingTackleInput)){
+                        tackleTimer = 0.3;
+                        StandingTackle();
                     }
                 }
                 break;
@@ -194,4 +219,23 @@ public class PlayerController : MonoBehaviour
             return maxAimDeviation;
         }
     }
+
+    void SlideTackle(){        
+        print("SlideTackle");
+    }
+
+    void StandingTackle(){
+        RaycastHit hitInfo;
+
+        if(Physics.SphereCast(this.transform.position, 1, GetMovementVector(), out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
+            if(hitInfo.collider.gameObject.tag == "Ball"){
+                print("asdfasdfasdf");
+                ball.Tackle(this);
+                playerManager.Steal(this);
+            }
+        }
+        
+        print("StandingTackle");
+    }
+
 }
