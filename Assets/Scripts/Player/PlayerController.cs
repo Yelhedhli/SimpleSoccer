@@ -230,13 +230,10 @@ public class PlayerController : MonoBehaviour
 
         if(Physics.SphereCast(this.transform.position, 1, lookVector, out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
             if(hitInfo.collider.gameObject.tag == "Ball"){
-                print("asdfasdfasdf");
                 ball.Tackle(this);
                 playerManager.Steal(this);
             }
         }
-        
-        print("StandingTackle");
     }
 
 }
