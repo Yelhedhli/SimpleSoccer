@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     private Collider ballStealCollider;
     private PlayerManager playerManager;
     
-    private enum BrainState{Player, Offense, Defense, RecievePass}
+    private enum BrainState{Player, Offense, Defense, RecievePass, Tackle}
     [SerializeField] 
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
 
@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public GameObject dribblePos; //position for where ball should go if this player has possession
 
     private double tackleTimer = 0;
+    private double tackleCooldownTimer = 0;
+    private Vector3 tackleDirection;
     [SerializeField]
     private LayerMask tackleLayerMask;
 
@@ -64,8 +66,8 @@ public class PlayerController : MonoBehaviour
         switch(brainState){
             case BrainState.Player:
                 if(playerManager.teamInPoss){
-                    if(tackleTimer > 0){
-                        tackleTimer -= Time.deltaTime;
+                    if(tackleCooldownTimer > 0){
+                        tackleCooldownTimer -= Time.deltaTime;
                         return;
                     }
 
@@ -79,16 +81,14 @@ public class PlayerController : MonoBehaviour
                         shotStrength = 0;
                     }
                 }else{
-                    if(tackleTimer > 0){
-                        tackleTimer -= Time.deltaTime;
+                    if(tackleCooldownTimer > 0){
+                        tackleCooldownTimer -= Time.deltaTime;
                         return;
                     }
 
                     if(Input.GetButtonDown(slideTackleInput)){
-                        tackleTimer = 0.6;
-                        SlideTackle();
+                        SlideTackleInit(); 
                     }else if(Input.GetButtonDown(standingTackleInput)){
-                        tackleTimer = 0.3;
                         StandingTackle();
                     }
                 }
@@ -128,6 +128,11 @@ public class PlayerController : MonoBehaviour
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
                 
                 break;
+            
+            case BrainState.Tackle:
+                tackleTimer -= Time.deltaTime;
+                SlideTackle();
+                break;
         }
     }
 
@@ -145,7 +150,7 @@ public class PlayerController : MonoBehaviour
 
     public void SetPlayerControlled(){
         playerControlled = true;
-        brainState = BrainState.Player;
+        brainState = BrainState.Tackle;
     }
 
     public void SetAIControlled(){
@@ -220,11 +225,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void SlideTackle(){        
+    void SlideTackleInit(){      
+        tackleCooldownTimer = 0.2;
+        tackleTimer = 0.4;
+        tackleDirection = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
+        brainState = BrainState.Tackle;
+        print("SlideTackleInit");
+    }
+
+    void SlideTackle(){      
+        transform.Translate(tackleDirection * (speed * 1.5f) * Time.deltaTime, Space.World);  
+        GetTackleResult();
+        if(tackleTimer <= 0){
+            brainState = BrainState.Player;
+        }
         print("SlideTackle");
     }
 
     void StandingTackle(){
+        tackleCooldownTimer = 0.1;
+        GetTackleResult();
+    }
+
+    void GetTackleResult(){
         RaycastHit hitInfo;
         Vector3 lookVector = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
 
