@@ -66,7 +66,7 @@ public class Ball : MonoBehaviour
     }
 
     public bool Steal(PlayerController stealer){
-        if( (playerInPoss == null) || (Vector3.Distance(this.transform.position, playerInPoss.transform.position) > Vector3.Distance(this.transform.position, stealer.transform.position)) ){
+        if( (playerInPoss == null) || (Vector3.Distance(this.transform.position, playerInPoss.transform.position) > 2*Vector3.Distance(this.transform.position, stealer.transform.position)) ){
             rb.velocity = Vector3.zero;
             rb.angularVelocity = Vector3.zero;
             playerInPoss = stealer;
