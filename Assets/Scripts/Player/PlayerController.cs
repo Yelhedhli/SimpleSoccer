@@ -226,8 +226,9 @@ public class PlayerController : MonoBehaviour
 
     void StandingTackle(){
         RaycastHit hitInfo;
+        Vector3 lookVector = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
 
-        if(Physics.SphereCast(this.transform.position, 1, GetMovementVector(), out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
+        if(Physics.SphereCast(this.transform.position, 1, lookVector, out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
             if(hitInfo.collider.gameObject.tag == "Ball"){
                 print("asdfasdfasdf");
                 ball.Tackle(this);
