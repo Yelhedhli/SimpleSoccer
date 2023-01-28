@@ -170,13 +170,11 @@ public class PlayerController : MonoBehaviour
     }
 
     public void SwitchToDefense(){
-        //print("switchtodefense");
         ballStealCollider.enabled = true;
         if(!playerControlled){
             SetAIControlled();
         }else{
             brainState = BrainState.Player;
-            //print("switched");
         }
     }
 
@@ -230,7 +228,6 @@ public class PlayerController : MonoBehaviour
         tackleTimer = 0.4;
         tackleDirection = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
         brainState = BrainState.Tackle;
-        print("SlideTackleInit");
     }
 
     void SlideTackle(){      
@@ -239,7 +236,6 @@ public class PlayerController : MonoBehaviour
         if(tackleTimer <= 0){
             brainState = BrainState.Player;
         }
-        print("SlideTackle");
     }
 
     void StandingTackle(){
