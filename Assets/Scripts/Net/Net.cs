@@ -7,25 +7,15 @@ public class Net : MonoBehaviour
 {
     public Dictionary<string, Vector3> shotTargets = new Dictionary<string, Vector3>();
 
-    //[SerializeField]
-    private string[] targetNames = new string [] {"TR", "BR", "TL", "BL"};
-
     [SerializeField]
     private List<GameObject> shotTargetList;
 
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < targetNames.Length; i++){
-            int c = i;
-            print(c);
-            shotTargets.Add(targetNames[c] , shotTargetList[c].transform.position);
+        for (int i = 0; i < shotTargetList.Count; i++)
+        {
+            shotTargets.Add(shotTargetList[i].name, shotTargetList[i].transform.position);
         }
-
-        // foreach (KeyValuePair<string, Vector3> kvp in shotTargets){
-        //     print(kvp.Key + " : " + kvp.Value.ToString());
-        // }
-        
-        //print(shotTargets["TR"]);
     }
-}
+} 
