@@ -423,6 +423,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399b8529d8beda34490abd2ab9ebd226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTeam1Net: 0
 --- !u!1 &5062555484510309675
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +433,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5062555484510309677}
+  - component: {fileID: 4152022758330640290}
   m_Layer: 0
   m_Name: Net
   m_TagString: Untagged
@@ -462,6 +464,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4152022758330640290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5062555484510309675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eff8a0696f2546e418c4d3ba2f4699bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shotTargetList:
+  - {fileID: 1562493967218844580}
+  - {fileID: 5171637984506600200}
+  - {fileID: 9192099166275975384}
+  - {fileID: 7554995059215622030}
 --- !u!1 &5171637984506600200
 GameObject:
   m_ObjectHideFlags: 0

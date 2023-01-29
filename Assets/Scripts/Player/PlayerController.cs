@@ -199,7 +199,8 @@ public class PlayerController : MonoBehaviour
         // crude way to set a min shot strength
         shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
 
-        Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
+        // Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
+        Vector3 target = playerManager.opponentNet.shotTargets["TR"];
 
         ball.ShootBall(shotStrength, target);
     }
