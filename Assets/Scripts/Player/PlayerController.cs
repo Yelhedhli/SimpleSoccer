@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
 
     void Shoot(){
         // distance from the goal as a percentage of max distance from net
-        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.transform.position)/maxShotDistance, 0, 1);
+        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.transform.position)/maxShotDistance, 0.3f, 1); // this is clamped at 0.3 so that you are never penalized for shot powers below 0.3
         
         // how far from the center of net player is aiming as a percentage 
         float deviationCoeff = Mathf.Clamp(GetAimDeviation()/maxAimDeviation, 0, 1);
@@ -199,9 +199,13 @@ public class PlayerController : MonoBehaviour
         // crude way to set a min shot strength
         shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
 
-        Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
+        // Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
+        Vector3 target = playerManager.opponentNet.shotTargets["Corner TR"];
 
-        ball.ShootBall(shotStrength, target);
+        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - target;
+        inaccuracyVector = inaccuracyVector.normalized;
+
+        ball.ShootBall(shotStrength, target + inaccuracyVector*2*(1-shotAccuracy));
     }
 
     float GetAimDeviation(){
