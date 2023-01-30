@@ -189,27 +189,33 @@ public class PlayerController : MonoBehaviour
 
     void Shoot(){
         Vector3 aimIntersection = GetAimIntersection();
-        Vector3 shotTarget = GetShotTarget(aimIntersection);
+        Vector3 nominalShotTarget = GetNominalShotTarget(aimIntersection);
 
         // distance from the goal as a percentage of max distance from net
-        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.opponentNet.transform.position)/maxShotDistance, 0.3f, 1); // this is clamped at 0.3 so that you are never penalized for shot powers below 0.3
+        float nominalShotPower = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.opponentNet.transform.position)/maxShotDistance, 0.3f, 1); // this is clamped at 0.3 so that you are never penalized for shot powers below 0.3
         
-        // how far from the center of net player is aiming as a percentage 
-        float deviationCoeff = Mathf.Clamp(GetAimDeviation(shotTarget, aimIntersection)/maxAimDeviation, 0, 1);
+        // math is how far from the target the player is aiming as a percentage 
+        float nominalAccuracy = 1 - Mathf.Clamp(GetAimDeviation(nominalShotTarget, aimIntersection)/maxAimDeviation, 0, 1);
         
         // how far above the nominal shot power a player's input is
-        float powerErr = Mathf.Clamp(shotStrength-distanceCoeff, 0, 1);
+        float powerErr = Mathf.Clamp(shotStrength-nominalShotPower, 0, 1);
+        // 
+        float powerPercentage = Mathf.Clamp(shotStrength/nominalShotPower, 0, 1);
 
-        float shotAccuracy = Mathf.Clamp(1 - deviationCoeff - powerErr, 0, 1);
+        float shotAccuracy = Mathf.Clamp(nominalAccuracy - powerErr, 0, 1);
         print("shotAccuracy: " + shotAccuracy);
 
         // crude way to set a min shot strength
         shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
 
-        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - shotTarget;
+        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - nominalShotTarget;
         inaccuracyVector = inaccuracyVector.normalized;
 
-        ball.ShootBall(shotStrength, shotTarget + inaccuracyVector*2*(1-shotAccuracy));
+        Vector3 powerVector = playerManager.opponentNet.shotTargets["Corner TR"] - playerManager.opponentNet.shotTargets["Corner BR"];
+        
+        Vector3 realShotTarget = nominalShotTarget + inaccuracyVector*2*(1-shotAccuracy) + powerVector*powerPercentage;
+
+        ball.ShootBall(shotStrength, realShotTarget);
     }
 
     Vector3 GetAimIntersection(){
@@ -229,12 +235,12 @@ public class PlayerController : MonoBehaviour
         return intersection == Vector3.zero ? Vector3.positiveInfinity : intersection;
     }
 
-    Vector3 GetShotTarget(Vector3 aimIntersection){
+    Vector3 GetNominalShotTarget(Vector3 aimIntersection){
         if(Vector3.Distance(playerManager.opponentNet.shotTargets["Corner BR"], aimIntersection) < Vector3.Distance(playerManager.opponentNet.shotTargets["Corner BL"], aimIntersection)){
-            return playerManager.opponentNet.shotTargets["Corner TR"];
+            return playerManager.opponentNet.shotTargets["Corner BR"];
         }
 
-        return playerManager.opponentNet.shotTargets["Corner TL"];
+        return playerManager.opponentNet.shotTargets["Corner BL"];
     }
 
     float GetAimDeviation(Vector3 target, Vector3 aimIntersection){
