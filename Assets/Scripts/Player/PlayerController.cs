@@ -148,6 +148,10 @@ public class PlayerController : MonoBehaviour
         return movementVector;
     }
 
+    Vector3 GetMovementVectorORHeading(){
+        return GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
+    }
+
     public void SetPlayerControlled(){
         playerControlled = true;
         brainState = BrainState.Tackle;
@@ -199,7 +203,6 @@ public class PlayerController : MonoBehaviour
         // crude way to set a min shot strength
         shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
 
-        // Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
         Vector3 target = playerManager.opponentNet.shotTargets["Corner TR"];
 
         Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - target;
@@ -208,9 +211,9 @@ public class PlayerController : MonoBehaviour
         ball.ShootBall(shotStrength, target + inaccuracyVector*2*(1-shotAccuracy));
     }
 
-    float GetAimDeviation(){
+    float GetAimDeviation(Vector3 target){
         Vector3 intersection = Vector3.zero;
-        Vector3 movementVector = GetMovementVector();
+        Vector3 movementVector = GetMovementVectorORHeading();
 
         Vector3 planeNormalizedPlayer = this.transform.position;
         planeNormalizedPlayer.y = 0;
@@ -230,7 +233,7 @@ public class PlayerController : MonoBehaviour
     void SlideTackleInit(){      
         tackleCooldownTimer = 0.2;
         tackleTimer = 0.4;
-        tackleDirection = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
+        tackleDirection = GetMovementVectorORHeading();
         brainState = BrainState.Tackle;
     }
 
@@ -249,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
     void GetTackleResult(){
         RaycastHit hitInfo;
-        Vector3 lookVector = GetMovementVector() == Vector3.zero ? this.transform.forward : GetMovementVector();
+        Vector3 lookVector = GetMovementVectorORHeading();
 
         if(Physics.SphereCast(this.transform.position, 1, lookVector, out hitInfo, 2, tackleLayerMask, QueryTriggerInteraction.Ignore)){
             if(hitInfo.collider.gameObject.tag == "Ball"){
