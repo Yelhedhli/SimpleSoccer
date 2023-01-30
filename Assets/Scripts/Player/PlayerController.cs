@@ -202,7 +202,10 @@ public class PlayerController : MonoBehaviour
         // Vector3 target = playerManager.opponentNet.transform.position + Vector3.back*5*(1-shotAccuracy);
         Vector3 target = playerManager.opponentNet.shotTargets["Corner TR"];
 
-        ball.ShootBall(shotStrength, target);
+        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - target;
+        inaccuracyVector = inaccuracyVector.normalized;
+
+        ball.ShootBall(shotStrength, target + inaccuracyVector*2*(1-shotAccuracy));
     }
 
     float GetAimDeviation(){
