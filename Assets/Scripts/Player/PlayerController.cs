@@ -188,11 +188,14 @@ public class PlayerController : MonoBehaviour
     }
 
     void Shoot(){
+        Vector3 aimIntersection = GetAimIntersection();
+        Vector3 shotTarget = GetShotTarget(aimIntersection);
+
         // distance from the goal as a percentage of max distance from net
-        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.transform.position)/maxShotDistance, 0.3f, 1); // this is clamped at 0.3 so that you are never penalized for shot powers below 0.3
+        float distanceCoeff = Mathf.Clamp(Vector3.Distance(this.transform.position, playerManager.opponentNet.transform.position)/maxShotDistance, 0.3f, 1); // this is clamped at 0.3 so that you are never penalized for shot powers below 0.3
         
         // how far from the center of net player is aiming as a percentage 
-        float deviationCoeff = Mathf.Clamp(GetAimDeviation()/maxAimDeviation, 0, 1);
+        float deviationCoeff = Mathf.Clamp(GetAimDeviation(shotTarget, aimIntersection)/maxAimDeviation, 0, 1);
         
         // how far above the nominal shot power a player's input is
         float powerErr = Mathf.Clamp(shotStrength-distanceCoeff, 0, 1);
@@ -203,16 +206,14 @@ public class PlayerController : MonoBehaviour
         // crude way to set a min shot strength
         shotStrength = Mathf.Clamp(shotStrength, 0.3f, 1);
 
-        Vector3 target = playerManager.opponentNet.shotTargets["Corner TR"];
-
-        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - target;
+        Vector3 inaccuracyVector = playerManager.opponentNet.transform.position - shotTarget;
         inaccuracyVector = inaccuracyVector.normalized;
 
-        ball.ShootBall(shotStrength, target + inaccuracyVector*2*(1-shotAccuracy));
+        ball.ShootBall(shotStrength, shotTarget + inaccuracyVector*2*(1-shotAccuracy));
     }
 
-    float GetAimDeviation(Vector3 target){
-        Vector3 intersection = Vector3.zero;
+    Vector3 GetAimIntersection(){
+        Vector3 intersection;
         Vector3 movementVector = GetMovementVectorORHeading();
 
         Vector3 planeNormalizedPlayer = this.transform.position;
@@ -221,13 +222,23 @@ public class PlayerController : MonoBehaviour
         Vector3 planeNormalizedNet = playerManager.opponentNet.transform.position;
         planeNormalizedNet.y = 0;
 
-        if(Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.back.normalized)){ // check intersection to one side of the net
-            return Vector3.Distance(intersection, planeNormalizedNet);
-        }else if(Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.forward.normalized)){ // check intersection to the other side of the net
-            return Vector3.Distance(intersection, planeNormalizedNet);
-        }else{ // player must not be facing the net
-            return maxAimDeviation;
+        if(!Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.back.normalized)){ // check intersection to one side of the net
+            Math3d.LineLineIntersection(out intersection, planeNormalizedPlayer, movementVector, planeNormalizedNet, Vector3.forward.normalized); // check the other side of the net
         }
+
+        return intersection == Vector3.zero ? Vector3.positiveInfinity : intersection;
+    }
+
+    Vector3 GetShotTarget(Vector3 aimIntersection){
+        if(Vector3.Distance(playerManager.opponentNet.shotTargets["Corner BR"], aimIntersection) < Vector3.Distance(playerManager.opponentNet.shotTargets["Corner BL"], aimIntersection)){
+            return playerManager.opponentNet.shotTargets["Corner TR"];
+        }
+
+        return playerManager.opponentNet.shotTargets["Corner TL"];
+    }
+
+    float GetAimDeviation(Vector3 target, Vector3 aimIntersection){
+        return Mathf.Clamp(Vector3.Distance(target, aimIntersection), 0, maxAimDeviation);
     }
 
     void SlideTackleInit(){      
