@@ -13,6 +13,10 @@ public class PlayerController : MonoBehaviour
     private enum BrainState{Player, Offense, Defense, RecievePass, Tackle}
     [SerializeField] 
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
+    
+    
+    public string positionName;
+    private Vector3 anchorPosition;
 
     [SerializeField] 
     private float speed = 10;
@@ -98,8 +102,6 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Quaternion toRotation;
-
         switch(brainState){
             case BrainState.Player:
                 // get movement vector
@@ -110,7 +112,7 @@ public class PlayerController : MonoBehaviour
 
                 // rotate character to face movement direction
                 if(movementDirection != Vector3.zero){
-                    toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
+                    Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
 
                     transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
                 }
@@ -118,20 +120,21 @@ public class PlayerController : MonoBehaviour
                 break;
 
             case BrainState.RecievePass:
-                Vector3 lookVector = ball.transform.position - this.transform.position;
-                lookVector.y = 0;
-                lookVector.Normalize();
-
-                transform.Translate(lookVector * speed * Time.deltaTime, Space.World); 
-
-                toRotation = Quaternion.LookRotation(lookVector, Vector3.up);
-                transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+                MoveAI(ball.transform.position);
                 
                 break;
             
             case BrainState.Tackle:
                 tackleTimer -= Time.deltaTime;
                 SlideTackle();
+                break;
+
+            case BrainState.Offense:
+                OffenseFixedUpdate();
+                break;
+            
+            case BrainState.Defense:
+                DefenseFixedUpdate();
                 break;
         }
     }
@@ -277,6 +280,39 @@ public class PlayerController : MonoBehaviour
                 playerManager.Steal(this);
             }
         }
+    }
+
+    void OffenseFixedUpdate(){
+        anchorPosition = GetAnchorPosition();
+
+        MoveAI(anchorPosition);
+    }
+
+    void DefenseFixedUpdate(){
+        anchorPosition = GetAnchorPosition();
+
+        MoveAI(anchorPosition);
+    }
+
+    Vector3 GetAnchorPosition(){
+        Vector3 positionalQuantifier = playerManager.playerPositions[positionName];
+        
+        Vector3 fieldDimensions = new Vector3(50, 0, 60);
+
+        positionalQuantifier.Scale(fieldDimensions);
+
+        return ball.transform.position + positionalQuantifier;
+    }
+
+    void MoveAI(Vector3 targetPosition){
+        Vector3 lookVector = targetPosition - this.transform.position;
+        lookVector.y = 0;
+        lookVector.Normalize();
+
+        transform.Translate(lookVector * speed * Time.deltaTime, Space.World); 
+
+        Quaternion toRotation = Quaternion.LookRotation(lookVector, Vector3.up);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
     }
 
 }

@@ -16,6 +16,13 @@ public class PlayerManager : MonoBehaviour
     public PlayerController[] teamPlayers;
     public PlayerController activePlayer;
 
+
+    public Dictionary<string, Vector3> playerPositions = new Dictionary<string, Vector3>();
+    [SerializeField]
+    private List<Vector3> positionCoordList;
+    [SerializeField]
+    private List<string> positionNameList;
+
     public PlayerManager otherTeam;
     public Net opponentNet;
 
@@ -47,6 +54,12 @@ public class PlayerManager : MonoBehaviour
         activePlayer.SetPlayerControlled();
         foreach(PlayerController p in teamPlayers){
             p.SwitchToDefense();
+        }
+
+        for (int i = 0; i < positionCoordList.Count; i++)
+        {
+            playerPositions.Add(positionNameList[i], positionCoordList[i]);
+            teamPlayers[i].positionName = positionNameList[i];
         }
     }
 
