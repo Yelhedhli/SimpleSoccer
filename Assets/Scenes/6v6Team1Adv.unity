@@ -474,8 +474,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296728663}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -25.9, y: 9.5402, z: 0.9}
-  m_LocalScale: {x: 66.56942, y: 20.080193, z: 1}
+  m_LocalPosition: {x: -27.4, y: 9.5402, z: 0.7297}
+  m_LocalScale: {x: 66.90893, y: 20.080193, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1872863371}
@@ -1147,8 +1147,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 695028354}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8, y: 9.5402, z: 24.5}
-  m_LocalScale: {x: 66.56942, y: 20.080193, z: 1}
+  m_LocalPosition: {x: 6.834, y: 9.5402, z: 26.2684}
+  m_LocalScale: {x: 68.899345, y: 20.080193, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1872863371}
@@ -1244,8 +1244,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 703743473}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 41.2, y: 9.5402, z: 0.9}
-  m_LocalScale: {x: 66.56942, y: 20.080193, z: 1}
+  m_LocalPosition: {x: 43.3842, y: 9.5402, z: 0.6952}
+  m_LocalScale: {x: 66.98215, y: 20.080193, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1872863371}
@@ -1804,6 +1804,8 @@ MonoBehaviour:
   - {x: 0, y: 0, z: -0.1}
   - {x: 0, y: 0, z: 0.1}
   - {x: 0.05, y: 0, z: 0.2}
+  formationWidth: 0
+  formationLength: 0
   positionNameList:
   - LCB
   - RCB
@@ -2018,6 +2020,8 @@ MonoBehaviour:
   - {x: -0.2, y: 0, z: -0.15}
   - {x: -0.1, y: 0, z: 0}
   - {x: -0.2, y: 0, z: 0.15}
+  formationWidth: 0
+  formationLength: 0
   positionNameList:
   - LCB
   - RCB
@@ -2084,8 +2088,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351541048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.4, y: 9.5402, z: -23.66}
-  m_LocalScale: {x: 66.56942, y: 20.080193, z: 1}
+  m_LocalPosition: {x: 8.4, y: 9.5402, z: -26}
+  m_LocalScale: {x: 66.56942, y: 20.080193, z: 5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1872863371}
@@ -2298,6 +2302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d862881db8cf7464683a84adec4cd3e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fieldDimensions: {x: 67, y: 0, z: 48}
   Team1Goals: 0
   Team2Goals: 0
 --- !u!4 &1763229257

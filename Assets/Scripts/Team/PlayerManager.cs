@@ -20,6 +20,8 @@ public class PlayerManager : MonoBehaviour
     public Dictionary<string, Vector3> playerPositions = new Dictionary<string, Vector3>();
     [SerializeField]
     private List<Vector3> positionCoordList;
+    public float formationWidth;
+    public float formationLength;
     [SerializeField]
     private List<string> positionNameList;
 
@@ -61,6 +63,32 @@ public class PlayerManager : MonoBehaviour
             playerPositions.Add(positionNameList[i], positionCoordList[i]);
             teamPlayers[i].positionName = positionNameList[i];
         }
+        //Cycle through positions to calculate formation width and length
+        float smallZ = positionCoordList[0].z;
+        float smallX = positionCoordList[0].x;
+        float maxZ = positionCoordList[0].z;
+        float maxX = positionCoordList[0].x;
+        for (int i = 0; i < positionCoordList.Count; i++)
+        {
+            if (smallZ > positionCoordList[i].z)
+            {
+                smallZ = positionCoordList[i].z;
+            }
+            else if (maxZ < positionCoordList[i].z)
+            {
+                maxZ = positionCoordList[i].z;
+            }
+            if (smallX > positionCoordList[i].x)
+            {
+                smallX = positionCoordList[i].x;
+            }
+            else if (maxX < positionCoordList[i].x)
+            {
+                maxX = positionCoordList[i].x;
+            }
+        }
+        formationLength = maxX - smallX;
+        formationWidth = maxZ - smallZ;
     }
 
     // Update is called once per frame

@@ -303,10 +303,20 @@ public class PlayerController : MonoBehaviour
 
     Vector3 GetAnchorPosition(){
         Vector3 positionalQuantifier = playerManager.playerPositions[positionName];
-        
-        Vector3 fieldDimensions = new Vector3(50, 0, 60);
 
-        positionalQuantifier.Scale(fieldDimensions);
+        positionalQuantifier.Scale(GameManager.instance.fieldDimensions);
+
+        //Constraints on team position
+        //top
+        if (GameManager.instance.fieldDimensions.z/2 - Ball.instance.transform.position.z < playerManager.formationWidth * GameManager.instance.fieldDimensions.z / 2)
+        {
+            positionalQuantifier.z += (GameManager.instance.fieldDimensions.z / 2 - Ball.instance.transform.position.z) - playerManager.formationWidth * GameManager.instance.fieldDimensions.z / 2;
+        }
+        //bottom (weird offset thing)
+        else if (-GameManager.instance.fieldDimensions.z / 2 - Ball.instance.transform.position.z > -playerManager.formationWidth * GameManager.instance.fieldDimensions.z / 2)
+        {
+            positionalQuantifier.z -= (-GameManager.instance.fieldDimensions.z / 2 - Ball.instance.transform.position.z) - playerManager.formationWidth * GameManager.instance.fieldDimensions.z / 2;
+        }
 
         return ball.transform.position + positionalQuantifier;
     }

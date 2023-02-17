@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    public Vector3 fieldDimensions = new Vector3(67, 0, 48);
+
     public int Team1Goals;
     public int Team2Goals;
 
