@@ -285,13 +285,20 @@ public class PlayerController : MonoBehaviour
     void OffenseFixedUpdate(){
         anchorPosition = GetAnchorPosition();
 
-        MoveAI(anchorPosition);
+        if (Vector3.Distance(anchorPosition, this.transform.position) > 2.5f)
+        {
+            MoveAI(anchorPosition);
+        }
     }
 
     void DefenseFixedUpdate(){
         anchorPosition = GetAnchorPosition();
 
-        MoveAI(anchorPosition);
+        if (Vector3.Distance(anchorPosition, this.transform.position) > 2.5f)
+        {
+            MoveAI(anchorPosition);
+        }
+            
     }
 
     Vector3 GetAnchorPosition(){
@@ -309,7 +316,7 @@ public class PlayerController : MonoBehaviour
         lookVector.y = 0;
         lookVector.Normalize();
 
-        transform.Translate(lookVector * speed * Time.deltaTime, Space.World); 
+        transform.Translate(lookVector * speed * Time.deltaTime, Space.World);
 
         Quaternion toRotation = Quaternion.LookRotation(lookVector, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
