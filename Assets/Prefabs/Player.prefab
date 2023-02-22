@@ -324,19 +324,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6574849258604843792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7674d7c33a67a7542a6b46547d0463a0, type: 3}
+  m_Script: {fileID: 11500000, guid: b78ebb28777080647ac5e54b7c6cd461, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   brainState: 0
+  positionName: 
   speed: 10
   rotationSpeed: 720
   dribblePos: {fileID: 5182626859741395664}
-  maxShotDistance: 2
-  maxAimDeviation: 2
-  shotStrengthModifier: 2
+  tackleLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
+  maxShotDistance: 0
+  maxAimDeviation: 0
+  shotStrengthModifier: 0
   xInput: 
   yInput: 
   shootInput: 
+  slideTackleInput: 
+  standingTackleInput: 
 --- !u!54 &6574849258604843789
 Rigidbody:
   m_ObjectHideFlags: 0

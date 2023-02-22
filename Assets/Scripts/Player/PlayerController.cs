@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
 
 [System.Serializable]
-public class PlayerController : MonoBehaviour
+public abstract class PlayerController : MonoBehaviour
 {
     private Ball ball; // leave this logic in for eventual implementation of shooting
     private Collider ballStealCollider;
@@ -14,14 +13,10 @@ public class PlayerController : MonoBehaviour
     private enum BrainState{Player, Offense, Defense, RecievePass, Tackle}
     [SerializeField] 
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use)
-
+    
     private enum OffensiveBrainState{Decide, Act, Reset};
     private OffensiveBrainState offensiveBrainState;
-    private enum OffensiveAction{CutIn, MakeRunOutside, MakeRunInside, GetOpen};
-    private OffensiveAction offensiveAction;
-    private Vector3 offensiveTargetPosition;
-    private Random random = new Random();
-    
+
     public string positionName;
     private Vector3 anchorPosition;
 
@@ -58,6 +53,9 @@ public class PlayerController : MonoBehaviour
     private string slideTackleInput;
     [SerializeField]
     private string standingTackleInput;
+
+    public abstract void OffenseFixedUpdate();
+    public abstract void DefenseFixedUpdate();
 
     void Awake()
     {
@@ -290,70 +288,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void OffenseFixedUpdate(){
-        switch(offensiveBrainState){
-            case OffensiveBrainState.Decide:
-                MakeOffensiveDecision();
-                offensiveBrainState = OffensiveBrainState.Act;
-                break;
-
-            case OffensiveBrainState.Act:
-
-                switch (offensiveAction){
-                    case OffensiveAction.GetOpen:
-                        offensiveBrainState = OffensiveBrainState.Reset;
-                        break;
-
-                    default:
-                        MoveAI(offensiveTargetPosition);
-
-                        if (Vector3.Distance(offensiveTargetPosition, this.transform.position) < 2){
-                            offensiveBrainState = OffensiveBrainState.Reset;
-                        }
-
-                        break;
-                }
-
-                break;
-
-            case OffensiveBrainState.Reset:
-                resetPosition(1);
-
-                if (Vector3.Distance(anchorPosition, this.transform.position) < 2){
-                    offensiveBrainState = OffensiveBrainState.Decide;
-                }
-
-                break;
-        }
-    }
-
-    void MakeOffensiveDecision(){
-        Array values = Enum.GetValues(typeof(OffensiveAction));
-        offensiveAction = (OffensiveAction)values.GetValue(random.Next(values.Length));
-
-        switch (offensiveAction){
-            case OffensiveAction.CutIn:
-                offensiveTargetPosition = playerManager.opponentNet.transform.position;
-                offensiveTargetPosition.z = 0;
-                break;
-
-            case OffensiveAction.MakeRunOutside:
-                offensiveTargetPosition = playerManager.opponentNet.transform.position;
-                offensiveTargetPosition.z = 0;
-                break;
-
-            case OffensiveAction.MakeRunInside:
-                offensiveTargetPosition = playerManager.opponentNet.transform.position;
-                offensiveTargetPosition.z = 0;
-                break;
-        }
-    }
-
-    void DefenseFixedUpdate(){
-        resetPosition(2.5f);   
-    }
-
-    Vector3 GetAnchorPosition(){
+    protected Vector3 GetAnchorPosition(){
         Vector3 positionalQuantifier = playerManager.playerPositions[positionName];
 
         positionalQuantifier.Scale(GameManager.instance.fieldDimensions);
@@ -373,7 +308,7 @@ public class PlayerController : MonoBehaviour
         return ball.transform.position + positionalQuantifier;
     }
 
-    void MoveAI(Vector3 targetPosition){
+    protected void MoveAI(Vector3 targetPosition){
         Vector3 lookVector = targetPosition - this.transform.position;
         lookVector.y = 0;
         lookVector.Normalize();
@@ -384,7 +319,7 @@ public class PlayerController : MonoBehaviour
         transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
     }
 
-    void resetPosition(float boundary){
+    protected void resetPosition(float boundary){
         anchorPosition = GetAnchorPosition();
 
         if (Vector3.Distance(anchorPosition, this.transform.position) > boundary)
