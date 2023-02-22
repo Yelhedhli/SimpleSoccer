@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 [System.Serializable]
 public class PlayerController : MonoBehaviour
@@ -12,8 +13,14 @@ public class PlayerController : MonoBehaviour
     
     private enum BrainState{Player, Offense, Defense, RecievePass, Tackle}
     [SerializeField] 
-    private BrainState brainState; // dictates whether to use player or AI input (and which AI to use) 
-    
+    private BrainState brainState; // dictates whether to use player or AI input (and which AI to use)
+
+    private enum OffensiveBrainState{Decide, Act, Reset};
+    private OffensiveBrainState offensiveBrainState;
+    private enum OffensiveAction{CutIn, MakeRunOutside, MakeRunInside, GetOpen};
+    private OffensiveAction offensiveAction;
+    private Vector3 offensiveTargetPosition;
+    private Random random = new Random();
     
     public string positionName;
     private Vector3 anchorPosition;
@@ -171,6 +178,7 @@ public class PlayerController : MonoBehaviour
 
     public void SwitchToOffense(){
         ballStealCollider.enabled = false;
+        offensiveBrainState = OffensiveBrainState.Decide;
         if(!playerControlled){
             SetAIControlled();
         }
@@ -283,22 +291,66 @@ public class PlayerController : MonoBehaviour
     }
 
     void OffenseFixedUpdate(){
-        anchorPosition = GetAnchorPosition();
+        switch(offensiveBrainState){
+            case OffensiveBrainState.Decide:
+                MakeOffensiveDecision();
+                offensiveBrainState = OffensiveBrainState.Act;
+                break;
 
-        if (Vector3.Distance(anchorPosition, this.transform.position) > 2.5f)
-        {
-            MoveAI(anchorPosition);
+            case OffensiveBrainState.Act:
+
+                switch (offensiveAction){
+                    case OffensiveAction.GetOpen:
+                        offensiveBrainState = OffensiveBrainState.Reset;
+                        break;
+
+                    default:
+                        MoveAI(offensiveTargetPosition);
+
+                        if (Vector3.Distance(offensiveTargetPosition, this.transform.position) < 2){
+                            offensiveBrainState = OffensiveBrainState.Reset;
+                        }
+
+                        break;
+                }
+
+                break;
+
+            case OffensiveBrainState.Reset:
+                resetPosition(1);
+
+                if (Vector3.Distance(anchorPosition, this.transform.position) < 2){
+                    offensiveBrainState = OffensiveBrainState.Decide;
+                }
+
+                break;
+        }
+    }
+
+    void MakeOffensiveDecision(){
+        Array values = Enum.GetValues(typeof(OffensiveAction));
+        offensiveAction = (OffensiveAction)values.GetValue(random.Next(values.Length));
+
+        switch (offensiveAction){
+            case OffensiveAction.CutIn:
+                offensiveTargetPosition = playerManager.opponentNet.transform.position;
+                offensiveTargetPosition.z = 0;
+                break;
+
+            case OffensiveAction.MakeRunOutside:
+                offensiveTargetPosition = playerManager.opponentNet.transform.position;
+                offensiveTargetPosition.z = 0;
+                break;
+
+            case OffensiveAction.MakeRunInside:
+                offensiveTargetPosition = playerManager.opponentNet.transform.position;
+                offensiveTargetPosition.z = 0;
+                break;
         }
     }
 
     void DefenseFixedUpdate(){
-        anchorPosition = GetAnchorPosition();
-
-        if (Vector3.Distance(anchorPosition, this.transform.position) > 2.5f)
-        {
-            MoveAI(anchorPosition);
-        }
-            
+        resetPosition(2.5f);   
     }
 
     Vector3 GetAnchorPosition(){
@@ -330,6 +382,15 @@ public class PlayerController : MonoBehaviour
 
         Quaternion toRotation = Quaternion.LookRotation(lookVector, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
+    }
+
+    void resetPosition(float boundary){
+        anchorPosition = GetAnchorPosition();
+
+        if (Vector3.Distance(anchorPosition, this.transform.position) > boundary)
+        {
+            MoveAI(anchorPosition);
+        }
     }
 
 }
