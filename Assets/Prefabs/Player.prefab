@@ -335,9 +335,9 @@ MonoBehaviour:
   tackleLayerMask:
     serializedVersion: 2
     m_Bits: 0
-  maxShotDistance: 0
-  maxAimDeviation: 0
-  shotStrengthModifier: 0
+  maxShotDistance: 2
+  maxAimDeviation: 2
+  shotStrengthModifier: 2
   xInput: 
   yInput: 
   shootInput: 
