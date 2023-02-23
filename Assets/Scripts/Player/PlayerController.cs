@@ -8,17 +8,17 @@ public abstract class PlayerController : MonoBehaviour
 {
     private Ball ball; // leave this logic in for eventual implementation of shooting
     private Collider ballStealCollider;
-    private PlayerManager playerManager;
+    protected PlayerManager playerManager;
     
     private enum BrainState{Player, Offense, Defense, RecievePass, Tackle}
     [SerializeField] 
     private BrainState brainState; // dictates whether to use player or AI input (and which AI to use)
     
-    private enum OffensiveBrainState{Decide, Act, Reset};
-    private OffensiveBrainState offensiveBrainState;
+    protected enum OffensiveBrainState{Decide, Act, Reset};
+    protected OffensiveBrainState offensiveBrainState;
 
     public string positionName;
-    private Vector3 anchorPosition;
+    protected Vector3 anchorPosition;
 
     [SerializeField] 
     private float speed = 10;
